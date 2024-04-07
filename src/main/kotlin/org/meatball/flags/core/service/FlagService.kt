@@ -6,21 +6,21 @@ import org.meatball.flags.core.config.getFlagL10n
 import org.meatball.flags.core.dao.FlagDao
 import org.meatball.flags.core.entity.Flag
 import org.meatball.flags.core.enums.Region
-import org.meatball.flags.crm.user.service.getUserRegionConfig
+import org.meatball.flags.crm.user.service.getUserRegion
 
 class FlagService {
 
     private val flagDao = FlagDao()
     private val flagL10n = getFlagL10n()
     private val regions = getCountryRegions()
-    private val europe = regions.getValue("Europe").map { it.key }.toHashSet()
-    private val asia = regions.getValue("Asia").map { it.key }.toHashSet()
-    private val oceania = regions.getValue("Oceania").map { it.key }.toHashSet()
+    private val europe = regions.getValue("Europe").map { it.key }
+    private val asia = regions.getValue("Asia").map { it.key }
+    private val oceania = regions.getValue("Oceania").map { it.key }
     private val asiaAndOceania = asia + oceania
-    private val africa = regions.getValue("Africa").map { it.key }.toHashSet()
-    private val america = regions.getValue("Americas").map { it.key }.toHashSet()
+    private val africa = regions.getValue("Africa").map { it.key }
+    private val america = regions.getValue("Americas").map { it.key }
     private val world = europe + asiaAndOceania + africa + america + "AQ"
-    private val regionMap = mapOf(
+    private val regionMap: Map<Region, Collection<String>> = mapOf(
         Region.WORLD to world,
         Region.EUROPE to europe,
         Region.ASIA to asia,
@@ -29,6 +29,7 @@ class FlagService {
         Region.AFRICA to africa,
         Region.AMERICA to america
     )
+    private val userStateMap = hashMapOf<String, UserState>()
 
     fun getNextFlag(userId: String): Flag {
         val nextCountryAlpha2 = getNextCountryAlpha2(userId)
@@ -46,9 +47,32 @@ class FlagService {
     }
 
     private fun getNextCountryAlpha2(userId: String): String {
-        val userRegion = getUserRegionConfig(userId)
-        return regionMap.getValue(userRegion).random()
+        var userState = userStateMap[userId] ?: defaultUserState()
+        val userRegionConfig = getUserRegion(userId)
+        if (userRegionConfig !== userState.region || !userState.iterator.hasNext()) {
+            userState = reshuffleUserCollection(userId, userRegionConfig)
+        }
+        return userState.iterator.next()
     }
+
+    private fun reshuffleUserCollection(userId: String, region: Region): UserState {
+        val userState = UserState(
+            iterator = regionMap.getValue(region).shuffled().iterator(),
+            region = region
+        )
+        userStateMap[userId] = userState
+        return userState
+    }
+
+    private fun defaultUserState() = UserState(
+        iterator = world.shuffled().listIterator(),
+        region = Region.WORLD
+    )
+
+    private data class UserState(
+        val iterator: Iterator<String>,
+        val region: Region
+    )
 
     private companion object {
         private val REGEX_MARKDOWN_V2_ESCAPE = Regex("([|{\\[\\]_~}+)(#>!=\\-.])")

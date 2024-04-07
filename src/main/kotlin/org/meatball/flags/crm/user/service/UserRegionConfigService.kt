@@ -9,4 +9,4 @@ fun updateUserRegionConfig(userId: String, region: Region) {
     userRegionConfig[userId] = region
 }
 
-fun getUserRegionConfig(userId: String): Region = userRegionConfig[userId] ?: Region.WORLD
+fun getUserRegion(userId: String): Region = userRegionConfig[userId] ?: Region.WORLD
