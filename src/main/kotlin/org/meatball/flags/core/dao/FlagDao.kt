@@ -14,8 +14,8 @@ class FlagDao {
         flagFilenames = flagByName.keys.toList()
     }
 
-    fun getByFileName(fileName: String): File {
-        return flagByName.getValue(fileName)
+    fun getByAlpha2(alpha2: String): File {
+        return flagByName.getValue("${alpha2.lowercase()}.png")
     }
 
     fun getAllFileNames(): List<String> {

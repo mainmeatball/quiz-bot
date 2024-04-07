@@ -1,4 +1,4 @@
-package org.meatball.flags.bot.user
+package org.meatball.flags.crm.user.service
 
 import java.util.concurrent.ConcurrentHashMap
 

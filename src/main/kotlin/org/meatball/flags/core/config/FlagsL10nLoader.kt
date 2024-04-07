@@ -1,5 +1,6 @@
 package org.meatball.flags.core.config
 
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.io.File
 
@@ -16,4 +17,19 @@ fun getFlagL10n(): Map<String, FlagName> {
     val ruJson = Json.decodeFromString<Map<String, String>>(ruFile.readText())
     val enJson = Json.decodeFromString<Map<String, String>>(enFile.readText())
     return ruJson.mapValues { FlagName(ru = it.value, en = enJson.getValue(it.key)) }
+}
+
+@Serializable
+data class Country(
+    val alpha2: String,
+    val region: String,
+    val subRegion: String,
+    val regionCode: String,
+    val subRegionCode: String
+)
+
+fun getCountryRegions(): Map<String, Map<String, Country>> {
+    val file = File(object {}.javaClass.getResource("/regions.json").toURI())
+    val listOfInfo = Json.decodeFromString<List<Country>>(file.readText())
+    return listOfInfo.groupBy { it.region }.mapValues { it.value.associateBy { it.alpha2 } }
 }

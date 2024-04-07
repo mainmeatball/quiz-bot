@@ -4,7 +4,7 @@ import org.meatball.flags.bot.state.TelegramBotState
 import org.meatball.flags.bot.state.handler.TelegramBotStateHandler
 import org.meatball.flags.bot.state.handler.dto.Content
 import org.meatball.flags.bot.state.handler.dto.StateHandlerResponse
-import org.meatball.flags.bot.user.updateUserFlag
+import org.meatball.flags.crm.user.service.updateUserFlag
 import org.meatball.flags.core.service.FlagService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

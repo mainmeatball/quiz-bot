@@ -1,5 +1,6 @@
 package org.meatball.flags.bot
 
+import org.meatball.flags.bot.command.UserRegionConfigCommandHandler
 import org.meatball.flags.bot.state.TelegramBotState
 import org.meatball.flags.bot.state.handler.TelegramBotStateHandler
 import org.meatball.flags.bot.state.handler.dto.StateHandlerResponse
@@ -28,7 +29,6 @@ private val TG_BOT_TOKEN = getTelegramBotToken()
 class LearnFlagsTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
 
     private val userStateMap = ConcurrentHashMap<String, TelegramBotState>()
-    private val userLastFlagMap = ConcurrentHashMap<String, String>()
 
     init {
         logger.info("Telegram bot is available")
@@ -41,7 +41,11 @@ class LearnFlagsTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
         val userId = msg.from.id.toString()
 
         // Getting user state
-        val userState = userStateMap.getOrDefault(userId, TelegramBotState.WAITING_FOR_QUESTION)
+        val userState = if (msg.isCommand) {
+            TelegramBotState.RECEIVE_COMMAND
+        } else {
+            userStateMap.getOrDefault(userId, TelegramBotState.WAITING_FOR_QUESTION)
+        }
 
         // Obtaining state handler
         val stateHandler = stateHandlerMap.getValue(userState)
@@ -133,6 +137,9 @@ class LearnFlagsTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
     private companion object {
         // State handlers
         private val stateHandlerMap = StateHandlersManager().stateHandlers.associateBy { it.state }
+
+        // Command handler
+        private val regionConfigCommandHandler = UserRegionConfigCommandHandler()
 
         private val logger: Logger = LoggerFactory.getLogger(LearnFlagsTelegramBot::class.java)
     }
