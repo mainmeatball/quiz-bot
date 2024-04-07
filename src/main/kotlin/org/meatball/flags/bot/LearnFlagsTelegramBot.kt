@@ -28,6 +28,7 @@ private val TG_BOT_TOKEN = getTelegramBotToken()
 class LearnFlagsTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
 
     private val userStateMap = ConcurrentHashMap<String, TelegramBotState>()
+    private val userLastFlagMap = ConcurrentHashMap<String, String>()
 
     init {
         logger.info("Telegram bot is available")
@@ -74,8 +75,8 @@ class LearnFlagsTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
 
     private fun sendResponse(userId: String, response: StateHandlerResponse) {
         when {
-            response.content.image != null -> sendPhoto(userId, response.content.image)
-            !response.content.text.isNullOrBlank() -> sendText(userId, response.content.text)
+            response.content?.image != null -> sendPhoto(userId, response.content.image)
+            !response.content?.text.isNullOrBlank() -> sendText(userId, response.content!!.text!!)
         }
     }
 

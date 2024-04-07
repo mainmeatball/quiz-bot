@@ -1,6 +1,5 @@
 package org.meatball.flags.core.dao
 
-import org.meatball.flags.core.entity.Flag
 import java.io.File
 
 class FlagDao {
@@ -15,9 +14,8 @@ class FlagDao {
         flagFilenames = flagByName.keys.toList()
     }
 
-    fun getByFileName(fileName: String): Flag {
-        val flagImage = flagByName.getValue(fileName)
-        return Flag("Russia", flagImage)
+    fun getByFileName(fileName: String): File {
+        return flagByName.getValue(fileName)
     }
 
     fun getAllFileNames(): List<String> {

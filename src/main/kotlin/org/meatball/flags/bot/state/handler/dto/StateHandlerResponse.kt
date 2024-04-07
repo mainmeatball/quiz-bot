@@ -5,4 +5,4 @@ import java.io.File
 
 data class Content(val text: String? = null, val image: File? = null)
 
-data class StateHandlerResponse(val content: Content, val nextState: TelegramBotState)
+data class StateHandlerResponse(val content: Content?, val nextState: TelegramBotState)

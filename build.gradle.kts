@@ -19,7 +19,6 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.9")
     implementation("org.telegram:telegrambots:6.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
-    //implementation(project(":learn-flags-bot"))
 }
 
 tasks.withType<Jar> {

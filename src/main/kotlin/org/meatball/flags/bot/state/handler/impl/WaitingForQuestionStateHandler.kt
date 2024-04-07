@@ -4,6 +4,7 @@ import org.meatball.flags.bot.state.TelegramBotState
 import org.meatball.flags.bot.state.handler.TelegramBotStateHandler
 import org.meatball.flags.bot.state.handler.dto.Content
 import org.meatball.flags.bot.state.handler.dto.StateHandlerResponse
+import org.meatball.flags.bot.user.updateUserFlag
 import org.meatball.flags.core.service.FlagService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -17,6 +18,7 @@ class WaitingForQuestionStateHandler : TelegramBotStateHandler {
 
     override fun handle(userId: String, msg: Message): StateHandlerResponse {
         val flag = flagService.getNextFlag(userId)
+        updateUserFlag(userId, flag.name)
         return StateHandlerResponse(
             content = Content(
                 text = flag.name,
