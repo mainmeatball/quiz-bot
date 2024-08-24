@@ -4,11 +4,11 @@ plugins {
     kotlin("plugin.serialization") version "1.9.21"
 }
 
-group = "org.meatball.flags"
+group = "org.meatball.quiz"
 version = "1.0.0-SNAPSHOT"
 
 application {
-    mainClass = "org.meatball.flags.MainKt"
+    mainClass = "org.meatball.quiz.MainKt"
 }
 
 repositories {
@@ -26,7 +26,7 @@ tasks.withType<Jar> {
         configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
     })
     manifest {
-        attributes["Main-Class"] = "org.meatball.flags.MainKt"
+        attributes["Main-Class"] = "org.meatball.quiz.MainKt"
     }
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE

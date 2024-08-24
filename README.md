@@ -1,1 +1,1 @@
-# learn-flags-bot
+# quiz-bot

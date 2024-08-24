@@ -1,1 +1,1 @@
-rootProject.name = "learn-flags-bot"
+rootProject.name = "quiz-bot"
