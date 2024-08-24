@@ -1,5 +1,6 @@
 package org.meatball.flags.core.dao
 
+import org.meatball.flags.core.config.USER
 import java.io.File
 
 class GeoDao {
@@ -8,14 +9,14 @@ class GeoDao {
     private val geoFilenames: List<String>
 
     init {
-        val geoDirectory = File("/home/zorq/quiz-bot/resources/geo1000px")
+        val geoDirectory = File("/home/${USER}/quiz-bot/resources/geo1000px")
         val geoImages = geoDirectory.listFiles()
         geoByName = geoImages?.associateBy { it.name } ?: error("Couldn't read /geo1000px directory in resources")
         geoFilenames = geoByName.keys.toList()
     }
 
-    fun getByAlpha2(alpha2: String): File {
-        return geoByName.getValue("${alpha2.lowercase()}.png")
+    fun getByAlpha2(alpha2: String): File? {
+        return geoByName["${alpha2.lowercase()}.png"]
     }
 
     fun getAllFileNames(): List<String> {

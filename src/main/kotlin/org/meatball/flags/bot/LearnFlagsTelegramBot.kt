@@ -1,6 +1,5 @@
 package org.meatball.flags.bot
 
-import org.meatball.flags.bot.command.UserRegionConfigCommandHandler
 import org.meatball.flags.bot.state.TelegramBotState
 import org.meatball.flags.bot.state.handler.TelegramBotStateHandler
 import org.meatball.flags.bot.state.handler.dto.StateHandlerResponse
@@ -102,6 +101,7 @@ class LearnFlagsTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
     }
 
     private fun sendText(userId: String, text: String) {
+        println(text)
         val smBuilder = SendMessage.builder()
             .chatId(userId)
             .text(text)
@@ -131,16 +131,13 @@ class LearnFlagsTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
 
     private fun constructNextFlagButton(): KeyboardButton {
         return KeyboardButton.builder()
-            .text("Следующий")
+            .text("Ответ")
             .build()
     }
 
     private companion object {
         // State handlers
         private val stateHandlerMap = StateHandlersManager().stateHandlers.associateBy { it.state }
-
-        // Command handler
-        private val regionConfigCommandHandler = UserRegionConfigCommandHandler()
 
         private val logger: Logger = LoggerFactory.getLogger(LearnFlagsTelegramBot::class.java)
     }

@@ -17,6 +17,7 @@ class WaitingForAnswerStateHandler : TelegramBotStateHandler {
         val flag = getLastUserFlag(userId)
         return StateHandlerResponse(
             content = Content(
+                text = flag?.name,
                 image = flag?.geo,
                 caption = flag?.name
             ),
