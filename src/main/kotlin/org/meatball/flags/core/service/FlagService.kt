@@ -42,7 +42,7 @@ class FlagService {
     }
 
     private fun constructFlagNameAnswer(flagName: FlagName): String {
-        return "${flagName.ru.escape()} \\(${flagName.en.escape()}\\)"
+        return "${flagName.ru.escape()} / ${flagName.en.escape()}"
     }
 
     private fun String.escape(): String {
