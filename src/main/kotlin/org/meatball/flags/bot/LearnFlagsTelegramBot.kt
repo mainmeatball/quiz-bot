@@ -34,7 +34,7 @@ class LearnFlagsTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
         logger.info("Telegram bot is available")
     }
 
-    override fun getBotUsername(): String = "Learn Flags Bot"
+    override fun getBotUsername(): String = "Boris Pupils Bot"
 
     override fun onUpdateReceived(update: Update) {
         val msg = update.message
@@ -79,16 +79,17 @@ class LearnFlagsTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
 
     private fun sendResponse(userId: String, response: StateHandlerResponse) {
         when {
-            response.content?.image != null -> sendPhoto(userId, response.content.image)
+            response.content?.image != null -> sendPhoto(userId, response.content.image, response.content.caption)
             !response.content?.text.isNullOrBlank() -> sendText(userId, response.content!!.text!!)
         }
     }
 
-    private fun sendPhoto(userId: String, image: File) {
+    private fun sendPhoto(userId: String, image: File, caption: String?) {
         val inputFile = InputFile(image)
         val sendPhotoRequest = SendPhoto.builder()
             .chatId(userId)
             .photo(inputFile)
+            .caption(caption)
             .replyMarkup(constructKeyboard())
             .build()
 

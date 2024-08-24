@@ -14,9 +14,11 @@ class WaitingForAnswerStateHandler : TelegramBotStateHandler {
     override val state = TelegramBotState.WAITING_FOR_ANSWER
 
     override fun handle(userId: String, msg: Message): StateHandlerResponse {
+        val flag = getLastUserFlag(userId)
         return StateHandlerResponse(
             content = Content(
-                text = getLastUserFlag(userId)
+                image = flag?.geo,
+                caption = flag?.name
             ),
             nextState = TelegramBotState.WAITING_FOR_QUESTION
         )

@@ -18,7 +18,7 @@ class WaitingForQuestionStateHandler : TelegramBotStateHandler {
 
     override fun handle(userId: String, msg: Message): StateHandlerResponse {
         val flag = flagService.getNextFlag(userId)
-        updateUserFlag(userId, flag.name)
+        updateUserFlag(userId, flag)
         return StateHandlerResponse(
             content = Content(
                 text = flag.name,

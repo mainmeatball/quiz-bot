@@ -4,6 +4,7 @@ import org.meatball.flags.core.config.FlagName
 import org.meatball.flags.core.config.getCountryRegions
 import org.meatball.flags.core.config.getFlagL10n
 import org.meatball.flags.core.dao.FlagDao
+import org.meatball.flags.core.dao.GeoDao
 import org.meatball.flags.core.entity.Flag
 import org.meatball.flags.core.enums.Region
 import org.meatball.flags.crm.user.service.getUserRegion
@@ -11,6 +12,7 @@ import org.meatball.flags.crm.user.service.getUserRegion
 class FlagService {
 
     private val flagDao = FlagDao()
+    private val geoDao = GeoDao()
     private val flagL10n = getFlagL10n()
     private val regions = getCountryRegions()
     private val europe = regions.getValue("Europe").map { it.key }
@@ -34,8 +36,9 @@ class FlagService {
     fun getNextFlag(userId: String): Flag {
         val nextCountryAlpha2 = getNextCountryAlpha2(userId)
         val flagFile = flagDao.getByAlpha2(nextCountryAlpha2)
+        val geoFile = geoDao.getByAlpha2(nextCountryAlpha2)
         val flagCountryName = flagL10n.getValue(nextCountryAlpha2)
-        return Flag(constructFlagNameAnswer(flagCountryName), flagFile)
+        return Flag(constructFlagNameAnswer(flagCountryName), nextCountryAlpha2, flagFile, geoFile)
     }
 
     private fun constructFlagNameAnswer(flagName: FlagName): String {
