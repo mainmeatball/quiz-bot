@@ -1,6 +1,6 @@
 package org.meatball.quiz.core.dao
 
-import org.meatball.quiz.core.config.USER
+import org.meatball.quiz.core.config.PATH_TO_RESOURCES
 import java.io.File
 
 class GeoDao {
@@ -9,7 +9,7 @@ class GeoDao {
     private val geoFilenames: List<String>
 
     init {
-        val geoDirectory = File("/home/${USER}/quiz-bot/resources/geo1000px")
+        val geoDirectory = File("$PATH_TO_RESOURCES/geo1000px")
         val geoImages = geoDirectory.listFiles()
         geoByName = geoImages?.associateBy { it.name } ?: error("Couldn't read /geo1000px directory in resources")
         geoFilenames = geoByName.keys.toList()

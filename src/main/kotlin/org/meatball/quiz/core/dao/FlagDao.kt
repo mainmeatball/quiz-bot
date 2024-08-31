@@ -1,6 +1,6 @@
 package org.meatball.quiz.core.dao
 
-import org.meatball.quiz.core.config.USER
+import org.meatball.quiz.core.config.PATH_TO_RESOURCES
 import java.io.File
 
 class FlagDao {
@@ -9,7 +9,7 @@ class FlagDao {
     private val flagFilenames: List<String>
 
     init {
-        val flagsDirectory = File("/home/${USER}/quiz-bot/resources/png1000px")
+        val flagsDirectory = File("$PATH_TO_RESOURCES/png1000px")
         val flagImages = flagsDirectory.listFiles()
         flagByName = flagImages?.associateBy { it.name } ?: error("Couldn't read /png1000px directory in resources")
         flagFilenames = flagByName.keys.toList()

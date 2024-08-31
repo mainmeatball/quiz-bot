@@ -8,5 +8,5 @@ interface TelegramBotStateHandler {
 
     val state: TelegramBotState
 
-    fun handle(userId: String, msg: Message): StateHandlerResponse
+    fun handle(userId: String): StateHandlerResponse
 }
