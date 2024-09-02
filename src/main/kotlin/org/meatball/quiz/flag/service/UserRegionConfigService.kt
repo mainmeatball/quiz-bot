@@ -1,4 +1,4 @@
-package org.meatball.quiz.crm.user.service
+package org.meatball.quiz.flag.service
 
 import org.meatball.quiz.core.enums.Region
 import java.util.concurrent.ConcurrentHashMap

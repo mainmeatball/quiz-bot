@@ -1,7 +1,7 @@
-package org.meatball.quiz.bot.button.impl.mode
+package org.meatball.quiz.flag.button.impl.mode
 
-import org.meatball.quiz.bot.button.FlagModeButtonCommandService
-import org.meatball.quiz.bot.enums.FlagModeButtonCommand
+import org.meatball.quiz.flag.button.FlagModeButtonCommandService
+import org.meatball.quiz.flag.enums.FlagModeButtonCommand
 
 class WorldFlagsButtonCommandHandler : FlagModeButtonCommandService {
 

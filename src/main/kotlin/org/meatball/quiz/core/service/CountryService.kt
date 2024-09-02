@@ -4,11 +4,11 @@ import org.meatball.quiz.core.config.Country
 import org.meatball.quiz.core.config.getCountryInfoMapByAlpha2
 import org.meatball.quiz.core.dao.FlagDao
 import org.meatball.quiz.core.dao.GeoDao
-import org.meatball.quiz.core.entity.Flag
+import org.meatball.quiz.core.entity.CountryInfo
 import org.meatball.quiz.core.enums.Region
-import org.meatball.quiz.crm.user.service.getUserRegion
+import org.meatball.quiz.flag.service.getUserRegion
 
-class FlagService {
+class CountryService {
 
     private val flagDao = FlagDao()
     private val geoDao = GeoDao()
@@ -36,13 +36,18 @@ class FlagService {
     )
     private val userStateMap = hashMapOf<String, UserState>()
 
-    fun getNextFlag(userId: String): Flag {
+    fun getNextCountryInfo(userId: String): CountryInfo {
         val nextCountryUserState = getNextCountryUserState(userId)
         val nextCountryAlpha2 = nextCountryUserState.currentCountry()
         val flagFile = flagDao.getByAlpha2(nextCountryAlpha2)
         val geoFile = geoDao.getByAlpha2(nextCountryAlpha2)
-        val flagCountryName = countryInfoMap.getValue(nextCountryAlpha2)
-        return Flag(constructFlagNameAnswer(flagCountryName, nextCountryUserState), nextCountryAlpha2, flagFile, geoFile)
+        val countryName = countryInfoMap.getValue(nextCountryAlpha2)
+        return CountryInfo(
+            constructCountryNameAnswer(countryName, nextCountryUserState),
+            nextCountryAlpha2,
+            flagFile,
+            geoFile
+        )
     }
 
     private fun getNextCountryUserState(userId: String): UserState {
@@ -71,9 +76,9 @@ class FlagService {
         region = Region.WORLD
     )
 
-    private fun constructFlagNameAnswer(flagName: Country, userState: UserState): String {
+    private fun constructCountryNameAnswer(countryName: Country, userState: UserState): String {
         val counter = "${userState.index + 1}/${userState.countries.lastIndex + 1}"
-        return "${flagName.rul10n} - ${flagName.enl10n} ($counter)"
+        return "${countryName.rul10n} - ${countryName.enl10n} ($counter)"
     }
 
     private data class UserState(
@@ -84,9 +89,5 @@ class FlagService {
         fun isLastCountry() = countries.lastIndex == index
 
         fun currentCountry() = countries[index]
-    }
-
-    private companion object {
-        private val REGEX_MARKDOWN_V2_ESCAPE = Regex("([|{\\[\\]_~}+)(#>!=\\-.])")
     }
 }

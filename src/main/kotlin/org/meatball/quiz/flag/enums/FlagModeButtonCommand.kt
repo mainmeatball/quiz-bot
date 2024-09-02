@@ -1,7 +1,15 @@
-package org.meatball.quiz.bot.enums
+package org.meatball.quiz.flag.enums
 
 import org.meatball.quiz.bot.button.ButtonCommandService
-import org.meatball.quiz.bot.button.impl.mode.*
+import org.meatball.quiz.flag.button.impl.mode.AfricaFlagsButtonCommandHandler
+import org.meatball.quiz.flag.button.impl.mode.AmericaFlagsButtonCommandHandler
+import org.meatball.quiz.flag.button.impl.mode.AsiaAndOceaniaFlagsButtonCommandHandler
+import org.meatball.quiz.flag.button.impl.mode.AsiaFlagsButtonCommandHandler
+import org.meatball.quiz.flag.button.impl.mode.DependentFlagsButtonCommandHandler
+import org.meatball.quiz.flag.button.impl.mode.EuropeFlagsButtonCommandHandler
+import org.meatball.quiz.flag.button.impl.mode.OceaniaFlagsButtonCommandHandler
+import org.meatball.quiz.flag.button.impl.mode.WorldFlagsButtonCommandHandler
+import org.meatball.quiz.flag.button.impl.mode.WorldPlusFlagsButtonCommandHandler
 import org.meatball.quiz.core.enums.Region
 
 enum class FlagModeButtonCommand(val key: String, val region: Region, val service: ButtonCommandService) {

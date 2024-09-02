@@ -1,7 +1,8 @@
-package org.meatball.quiz.bot.button
+package org.meatball.quiz.flag.button
 
 import org.meatball.quiz.bot.answer.dto.SendMessageResponse
-import org.meatball.quiz.bot.enums.FlagModeButtonCommand
+import org.meatball.quiz.bot.button.ButtonCommandService
+import org.meatball.quiz.flag.enums.FlagModeButtonCommand
 import org.meatball.quiz.bot.singletone.nextFlagQuestionProvider
 import org.meatball.quiz.bot.singletone.keyboardButtonFactory
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery

@@ -13,8 +13,11 @@ class ButtonCommandManager : OnUpdateReceivedHandler {
 
         return when {
             // Main menu options:
-            // Flags
+            // Flags, Countries
             ButtonCommand.MAIN_MENU.service.suitableFor(cbQuery) -> ButtonCommand.MAIN_MENU.service.getResponse(cbQuery)
+
+
+            // Flags
 
             // Flag menu options:
             // World, Europe, Asia, ...
@@ -26,7 +29,23 @@ class ButtonCommandManager : OnUpdateReceivedHandler {
 
             // Flag mode:
             // Sends photo of the flag, handles state
-            ButtonCommand.SHOW_ANSWER.service.suitableFor(cbQuery) -> ButtonCommand.SHOW_ANSWER.service.getResponse(cbQuery)
+            ButtonCommand.SHOW_FLAG_ANSWER.service.suitableFor(cbQuery) -> ButtonCommand.SHOW_FLAG_ANSWER.service.getResponse(cbQuery)
+
+
+            // Countries
+
+            // Countries menu options:
+            // World, Europe, Asia, ...
+            ButtonCommand.COUNTRY_MODES.service.suitableFor(cbQuery) -> ButtonCommand.COUNTRY_MODES.service.getResponse(cbQuery)
+
+            // Flag mode:
+            // Sends photo of the flag, handles state
+            ButtonCommand.COUNTRY_MODE.service.suitableFor(cbQuery) -> ButtonCommand.COUNTRY_MODE.service.getResponse(cbQuery)
+
+            // Flag mode:
+            // Sends photo of the flag, handles state
+            ButtonCommand.SHOW_COUNTRY_ANSWER.service.suitableFor(cbQuery) -> ButtonCommand.SHOW_COUNTRY_ANSWER.service.getResponse(cbQuery)
+
 
 
             else -> SendMessageResponse(emptyList())

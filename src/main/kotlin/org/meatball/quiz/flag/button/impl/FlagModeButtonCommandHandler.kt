@@ -1,13 +1,11 @@
-package org.meatball.quiz.bot.button.impl
+package org.meatball.quiz.flag.button.impl
 
 import org.meatball.quiz.bot.answer.dto.SendMessageComponents
 import org.meatball.quiz.bot.answer.dto.SendMessageResponse
 import org.meatball.quiz.bot.button.ButtonCommandService
-import org.meatball.quiz.bot.enums.FlagModeButtonCommand
-import org.meatball.quiz.crm.user.service.updateUserRegionConfig
+import org.meatball.quiz.flag.enums.FlagModeButtonCommand
+import org.meatball.quiz.flag.service.updateUserRegionConfig
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup.InlineKeyboardMarkupBuilder
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 
 class FlagModeButtonCommandHandler : ButtonCommandService {

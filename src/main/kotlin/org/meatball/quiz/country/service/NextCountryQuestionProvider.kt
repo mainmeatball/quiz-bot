@@ -1,4 +1,4 @@
-package org.meatball.quiz.flag.service
+package org.meatball.quiz.country.service
 
 import org.meatball.quiz.bot.answer.dto.SendMessageComponents
 import org.meatball.quiz.bot.enums.ButtonCommand
@@ -7,21 +7,21 @@ import org.meatball.quiz.core.service.updateUserCountry
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup.InlineKeyboardMarkupBuilder
 
-class NextFlagQuestionProvider {
+class NextCountryQuestionProvider {
 
-    fun getNextFlagQuestion(userId: String): SendMessageComponents {
-        val nextCountryInfo = countryService.getNextCountryInfo(userId)
-        updateUserCountry(userId, nextCountryInfo)
+    fun getNextCountryQuestion(userId: String): SendMessageComponents {
+        val nextCountry = countryService.getNextCountryInfo(userId)
+        updateUserCountry(userId, nextCountry)
         return SendMessageComponents(
             text = null,
-            photo = nextCountryInfo.flag,
+            photo = nextCountry.geo,
             keyboard = getShowAnswerKeyboard()
         )
     }
 
     private fun getShowAnswerKeyboard(): InlineKeyboardMarkupBuilder {
         return InlineKeyboardMarkup.builder()
-            .keyboardRow(listOf(ButtonCommand.SHOW_FLAG_ANSWER.service.getButton()))
+            .keyboardRow(listOf(ButtonCommand.SHOW_COUNTRY_ANSWER.service.getButton()))
     }
 
 }

@@ -1,4 +1,4 @@
-package org.meatball.quiz.bot.button.impl
+package org.meatball.quiz.flag.button.impl
 
 import org.meatball.quiz.bot.answer.dto.SendMessageResponse
 import org.meatball.quiz.bot.button.ButtonCommandService
@@ -9,10 +9,10 @@ import org.meatball.quiz.bot.singletone.nextFlagQuestionProvider
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 
-class ShowAnswerButtonCommandHandler : ButtonCommandService {
+class ShowFlagAnswerButtonCommandHandler : ButtonCommandService {
 
     override fun suitableFor(cbQuery: CallbackQuery): Boolean {
-        return cbQuery.data == ButtonCommand.SHOW_ANSWER.key
+        return cbQuery.data == ButtonCommand.SHOW_FLAG_ANSWER.key
     }
 
     override fun getResponse(cbQuery: CallbackQuery): SendMessageResponse {
@@ -20,7 +20,7 @@ class ShowAnswerButtonCommandHandler : ButtonCommandService {
     }
 
     override fun getButton(vararg params: Any): InlineKeyboardButton {
-        return keyboardButtonFactory.button("Ответ", ButtonCommand.SHOW_ANSWER.key)
+        return keyboardButtonFactory.button("Ответ", ButtonCommand.SHOW_FLAG_ANSWER.key)
     }
 
     private fun getShowAnswer(cbQuery: CallbackQuery): SendMessageResponse {

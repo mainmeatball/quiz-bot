@@ -17,7 +17,6 @@ class MainMenuButtonCommandHandler : ButtonCommandService {
     }
 
     override fun getResponse(cbQuery: CallbackQuery): SendMessageResponse {
-
         return getMenu()
     }
 
@@ -32,6 +31,6 @@ class MainMenuButtonCommandHandler : ButtonCommandService {
 
     private fun keyboard(): InlineKeyboardMarkupBuilder {
         return InlineKeyboardMarkup.builder()
-            .keyboardRow(listOf(ButtonCommand.FLAG_MODES.service.getButton()))
+            .keyboardRow(listOf(ButtonCommand.FLAG_MODES.service.getButton(), ButtonCommand.COUNTRY_MODES.service.getButton()))
     }
 }
