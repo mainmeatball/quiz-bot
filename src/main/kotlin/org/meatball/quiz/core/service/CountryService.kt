@@ -41,9 +41,9 @@ class CountryService {
         val nextCountryAlpha2 = nextCountryUserState.currentCountry()
         val flagFile = flagDao.getByAlpha2(nextCountryAlpha2)
         val geoFile = geoDao.getByAlpha2(nextCountryAlpha2)
-        val countryName = countryInfoMap.getValue(nextCountryAlpha2)
+        val countryInfo = countryInfoMap.getValue(nextCountryAlpha2)
         return CountryInfo(
-            constructCountryNameAnswer(countryName, nextCountryUserState),
+            constructCountryNameAnswer(countryInfo, nextCountryUserState),
             nextCountryAlpha2,
             flagFile,
             geoFile
@@ -76,9 +76,9 @@ class CountryService {
         region = Region.WORLD
     )
 
-    private fun constructCountryNameAnswer(countryName: Country, userState: UserState): String {
+    private fun constructCountryNameAnswer(country: Country, userState: UserState): String {
         val counter = "${userState.index + 1}/${userState.countries.lastIndex + 1}"
-        return "${countryName.rul10n} - ${countryName.enl10n} ($counter)"
+        return "${country.nameRu} - ${country.capitalRu} ($counter)"
     }
 
     private data class UserState(

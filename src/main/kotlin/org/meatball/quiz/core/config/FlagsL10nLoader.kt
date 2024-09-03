@@ -11,8 +11,10 @@ private val json = Json { ignoreUnknownKeys = true }
 @Serializable
 data class Country(
     val alpha2: String,
-    val rul10n: String,
-    val enl10n: String,
+    val nameRu: String,
+    val nameEn: String,
+    val capitalRu: String,
+    val capitalEn: String,
     val region: String
 )
 
