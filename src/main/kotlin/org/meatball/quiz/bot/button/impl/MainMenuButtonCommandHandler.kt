@@ -32,5 +32,6 @@ class MainMenuButtonCommandHandler : ButtonCommandService {
     private fun keyboard(): InlineKeyboardMarkupBuilder {
         return InlineKeyboardMarkup.builder()
             .keyboardRow(listOf(ButtonCommand.FLAG_MODES.service.getButton(), ButtonCommand.COUNTRY_MODES.service.getButton()))
+            .keyboardRow(listOf(ButtonCommand.CAPITAL_MODES.service.getButton()))
     }
 }

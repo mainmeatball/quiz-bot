@@ -29,6 +29,7 @@ class QuizTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
                 when {
                     msg.sendPhoto != null -> execute(msg.sendPhoto)
                     msg.sendMessage != null -> execute(msg.sendMessage)
+                    msg.editText != null -> execute(msg.editText)
                 }
             } catch (ex: TelegramApiException) {
                 println(ex.message)

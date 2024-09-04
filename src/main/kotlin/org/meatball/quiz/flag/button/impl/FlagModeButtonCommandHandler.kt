@@ -27,9 +27,11 @@ class FlagModeButtonCommandHandler : ButtonCommandService {
 
         updateUserRegionConfig(cbQuery.from.id.toString(), flagMode.region)
 
-        val components =
-            listOf(SendMessageComponents(text = "Будут отображаться флаги региона: ${flagMode.region.l10n}")) +
-                flagMode.service.getResponse(cbQuery).msgList
+        val firstMessage = SendMessageComponents(
+            text = "Будут отображаться флаги региона: ${flagMode.region.l10n}",
+            messageId = cbQuery.message.messageId
+        )
+        val components = listOf(firstMessage) + flagMode.service.getResponse(cbQuery).msgList
         return SendMessageResponse(components)
     }
 }

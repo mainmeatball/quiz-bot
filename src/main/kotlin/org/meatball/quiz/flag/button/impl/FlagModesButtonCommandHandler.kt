@@ -18,15 +18,15 @@ class FlagModesButtonCommandHandler : ButtonCommandService {
     }
 
     override fun getResponse(cbQuery: CallbackQuery): SendMessageResponse {
-        return getFlagsModes()
+        return getFlagsModes(cbQuery.message.messageId)
     }
 
     override fun getButton(vararg params: Any): InlineKeyboardButton {
         return keyboardButtonFactory.button("Флаги", ButtonCommand.FLAG_MODES.key)
     }
 
-    private fun getFlagsModes(): SendMessageResponse {
-        val msg = SendMessageComponents("Выберите режим", keyboard = keyboard())
+    private fun getFlagsModes(messageId: Int): SendMessageResponse {
+        val msg = SendMessageComponents("Выберите режим", keyboard = keyboard(), messageId = messageId)
         return SendMessageResponse.single(msg)
     }
 

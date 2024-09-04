@@ -7,4 +7,5 @@ data class SendMessageComponents(
     val text: String?,
     val photo: File? = null,
     val keyboard: InlineKeyboardMarkup.InlineKeyboardMarkupBuilder? = null,
+    val messageId: Int? = null
 )

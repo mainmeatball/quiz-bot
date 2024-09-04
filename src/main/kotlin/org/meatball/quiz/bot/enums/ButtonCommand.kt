@@ -4,6 +4,9 @@ import org.meatball.quiz.bot.button.ButtonCommandService
 import org.meatball.quiz.flag.button.impl.FlagModeButtonCommandHandler
 import org.meatball.quiz.flag.button.impl.FlagModesButtonCommandHandler
 import org.meatball.quiz.bot.button.impl.MainMenuButtonCommandHandler
+import org.meatball.quiz.capital.button.impl.CapitalModeButtonCommandHandler
+import org.meatball.quiz.capital.button.impl.CapitalModesButtonCommandHandler
+import org.meatball.quiz.capital.button.impl.ShowCapitalAnswerButtonCommandHandler
 import org.meatball.quiz.flag.button.impl.ShowFlagAnswerButtonCommandHandler
 import org.meatball.quiz.country.button.impl.CountryModeButtonCommandHandler
 import org.meatball.quiz.country.button.impl.CountryModesButtonCommandHandler
@@ -21,4 +24,9 @@ enum class ButtonCommand(val key: String, val service: ButtonCommandService) {
     COUNTRY_MODES("cm", CountryModesButtonCommandHandler()),
     COUNTRY_MODE("cm", CountryModeButtonCommandHandler()),
     SHOW_COUNTRY_ANSWER("c_sa", ShowCountryAnswerButtonCommandHandler()),
+
+    // Capitals
+    CAPITAL_MODES("cpm", CapitalModesButtonCommandHandler()),
+    CAPITAL_MODE("cpm", CapitalModeButtonCommandHandler()),
+    SHOW_CAPITAL_ANSWER("cp_sa", ShowCapitalAnswerButtonCommandHandler()),
 }

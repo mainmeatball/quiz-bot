@@ -43,8 +43,9 @@ class CountryService {
         val geoFile = geoDao.getByAlpha2(nextCountryAlpha2)
         val countryInfo = countryInfoMap.getValue(nextCountryAlpha2)
         return CountryInfo(
-            constructCountryNameAnswer(countryInfo, nextCountryUserState),
             nextCountryAlpha2,
+            constructCountryNameAnswer(countryInfo, nextCountryUserState),
+            countryInfo.capitalRu,
             flagFile,
             geoFile
         )

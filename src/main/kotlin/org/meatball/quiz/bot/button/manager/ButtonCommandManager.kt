@@ -48,6 +48,21 @@ class ButtonCommandManager : OnUpdateReceivedHandler {
 
 
 
+            // Capitals
+
+            // Countries menu options:
+            // World, Europe, Asia, ...
+            ButtonCommand.CAPITAL_MODES.service.suitableFor(cbQuery) -> ButtonCommand.CAPITAL_MODES.service.getResponse(cbQuery)
+
+            // Flag mode:
+            // Sends photo of the flag, handles state
+            ButtonCommand.CAPITAL_MODE.service.suitableFor(cbQuery) -> ButtonCommand.CAPITAL_MODE.service.getResponse(cbQuery)
+
+            // Flag mode:
+            // Sends photo of the flag, handles state
+            ButtonCommand.SHOW_CAPITAL_ANSWER.service.suitableFor(cbQuery) -> ButtonCommand.SHOW_CAPITAL_ANSWER.service.getResponse(cbQuery)
+
+
             else -> SendMessageResponse(emptyList())
         }
     }
