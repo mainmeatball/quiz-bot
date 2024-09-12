@@ -6,6 +6,7 @@ import org.meatball.quiz.bot.commons.dto.SendMessageResponse
 import org.telegram.telegrambots.meta.api.methods.ParseMode
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageCaption
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText
 import org.telegram.telegrambots.meta.api.objects.InputFile
 import org.telegram.telegrambots.meta.api.objects.Update
@@ -16,6 +17,20 @@ interface OnUpdateReceivedHandler {
     fun handle(update: Update): List<SendMessageOrPhoto> {
         val msgList = doHandle(update).msgList
         return msgList.mapNotNull { msg ->
+            if (msg.caption != null) {
+                val builder = EditMessageCaption.builder()
+                    .parseMode(ParseMode.MARKDOWNV2)
+                if (msg.keyboard != null) {
+                    builder.replyMarkup(msg.keyboard.build())
+                }
+                builder
+                    .chatId(update.callbackQuery?.message?.chatId ?: update.message.chatId)
+                    .messageId(msg.messageId)
+                val message = builder
+                    .caption(msg.caption.replace(REGEX_MARKDOWN_V2_ESCAPE, "\\\\$1"))
+                    .build()
+                return@mapNotNull SendMessageOrPhoto.editCaption(message)
+            }
             if (msg.photo != null) {
                 val inputFile = InputFile(msg.photo)
                 val builder = SendPhoto.builder()

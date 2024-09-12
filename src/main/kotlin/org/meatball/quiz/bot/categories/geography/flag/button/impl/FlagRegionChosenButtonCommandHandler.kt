@@ -1,10 +1,10 @@
 package org.meatball.quiz.bot.categories.geography.flag.button.impl
 
-import org.meatball.quiz.bot.categories.geography.core.state.updateUserRegionConfig
 import org.meatball.quiz.bot.categories.geography.flag.enums.FlagRegionButtonCommand
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageComponents
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
+import org.meatball.quiz.bot.commons.singletone.countryService
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 
@@ -28,7 +28,7 @@ class FlagRegionChosenButtonCommandHandler : ButtonCommandService {
     private fun getFlagsModeResponse(cbQuery: CallbackQuery): SendMessageResponse {
         val flagMode = FlagRegionButtonCommand.map.getValue(cbQuery.data)
 
-        updateUserRegionConfig(cbQuery.from.id.toString(), flagMode.region)
+        countryService.updateRegion(cbQuery.from.id.toString(), flagMode.region)
 
         val firstMessage = SendMessageComponents(
             text = "Будут отображаться флаги региона: ${flagMode.region.l10n}",

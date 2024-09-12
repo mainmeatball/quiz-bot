@@ -1,10 +1,11 @@
-package org.meatball.quiz.bot.commons.command.impl
+package org.meatball.quiz.bot.commons.slash.impl
 
 import org.meatball.quiz.bot.categories.MainMenuCategoryButton
-import org.meatball.quiz.bot.commons.command.SlashCommandService
+import org.meatball.quiz.bot.commons.slash.SlashCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageComponents
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
-import org.meatball.quiz.bot.commons.enums.SlashCommand
+import org.meatball.quiz.bot.commons.singletone.countryService
+import org.meatball.quiz.bot.commons.slash.SlashCommand
 import org.meatball.quiz.bot.commons.singletone.keyboardButtonFactory
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
@@ -18,17 +19,14 @@ class MainMenuSlashCommandHandler : SlashCommandService {
             msg.entities[0].text == SlashCommand.START.key
     }
 
-    override fun getResponse(msg: Message): SendMessageResponse {
-        return getMenu()
-    }
-
     override fun getButton(vararg params: Any): InlineKeyboardButton {
         return keyboardButtonFactory.button("В главное меню", SlashCommand.MAIN_MENU.key)
     }
 
-    private fun getMenu(): SendMessageResponse {
-        val msg = SendMessageComponents("Выберите категорию", keyboard = keyboard())
-        return SendMessageResponse.single(msg)
+    override fun getResponse(msg: Message): SendMessageResponse {
+        val messageComponents = SendMessageComponents("Выберите категорию", keyboard = keyboard())
+        countryService.clearUserState(msg.from.id.toString())
+        return SendMessageResponse.single(messageComponents)
     }
 
     private fun keyboard(): InlineKeyboardMarkupBuilder {

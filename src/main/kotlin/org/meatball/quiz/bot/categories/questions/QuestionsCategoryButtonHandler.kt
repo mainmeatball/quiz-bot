@@ -1,20 +1,17 @@
-package org.meatball.quiz.bot.categories.handler
+package org.meatball.quiz.bot.categories.questions
 
 import org.meatball.quiz.bot.categories.MainMenuCategoryButton
-import org.meatball.quiz.bot.categories.geography.GeographyCategoryButton
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageComponents
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
-import org.meatball.quiz.bot.commons.singletone.keyboardButtonFactory
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup.InlineKeyboardMarkupBuilder
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 
-class ArtCategoryButtonHandler : ButtonCommandService {
+class QuestionsCategoryButtonHandler : ButtonCommandService {
 
-    override val enum get() = MainMenuCategoryButton.ART
-    override val buttonText get() = "Искусство"
+    override val enum get() = MainMenuCategoryButton.QUESTIONS
+    override val buttonText get() = "Вопросы"
 
     override fun getResponse(cbQuery: CallbackQuery): SendMessageResponse {
         return getGeographyMenu(cbQuery.message.messageId)

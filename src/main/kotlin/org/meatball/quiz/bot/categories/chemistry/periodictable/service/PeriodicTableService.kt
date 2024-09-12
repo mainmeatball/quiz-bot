@@ -1,9 +1,8 @@
 package org.meatball.quiz.bot.categories.chemistry.periodictable.service
 
+import org.meatball.quiz.bot.categories.chemistry.periodictable.dao.PeriodicTableDao
 import org.meatball.quiz.bot.categories.chemistry.periodictable.entity.PeriodicTable
 import org.meatball.quiz.bot.categories.chemistry.periodictable.enums.PeriodicTableModeButtonCommand
-import org.meatball.quiz.bot.categories.chemistry.periodictable.state.getPeriodicTableMode
-import org.meatball.quiz.bot.commons.singletone.periodicTableDao
 
 class PeriodicTableService {
 
@@ -14,22 +13,22 @@ class PeriodicTableService {
     private val periodicTableByEnName = periodicTable.associateBy { it.enName }
     private val userStateMap = hashMapOf<String, UserState>()
 
-    fun getNextElementInfo(userId: String): PeriodicTable {
-        val nextElementUserState = getNextElementUserState(userId)
-        val nextElement = nextElementUserState.currentElement()
-        return nextElement
-    }
+//    fun getNextElementInfo(userId: String): PeriodicTable {
+//        val nextElementUserState = getNextElementUserState(userId)
+//        val nextElement = nextElementUserState.currentElement()
+//        return nextElement
+//    }
 
-    private fun getNextElementUserState(userId: String): UserState {
-        var userState = userStateMap[userId] ?: defaultUserState()
-        val userPeriodicTableConfig = getPeriodicTableMode(userId)
-        if (userPeriodicTableConfig !== userState.periodicTableMode.key || userState.isLastElement()) {
-            val mode = PeriodicTableModeButtonCommand.mapByKey.getValue(userPeriodicTableConfig)
-            userState = reshuffleUserCollection(userId, mode)
-        }
-        userState.index++
-        return userState
-    }
+//    private fun getNextElementUserState(userId: String): UserState {
+//        var userState = userStateMap[userId] ?: defaultUserState()
+//        val userPeriodicTableConfig = userState.periodicTableMode
+//        if (userPeriodicTableConfig !== userState.periodicTableMode.key || userState.isLastElement()) {
+//            val mode = PeriodicTableModeButtonCommand.mapByKey.getValue(userPeriodicTableConfig)
+//            userState = reshuffleUserCollection(userId, mode)
+//        }
+//        userState.index++
+//        return userState
+//    }
 
     private fun reshuffleUserCollection(userId: String, mode: PeriodicTableModeButtonCommand): UserState {
         val elements = when (mode) {
@@ -65,5 +64,9 @@ class PeriodicTableService {
         fun isLastElement() = elements.lastIndex == index
 
         fun currentElement() = elements[index]
+    }
+
+    private companion object {
+        private val periodicTableDao = PeriodicTableDao()
     }
 }

@@ -1,15 +1,14 @@
-package org.meatball.quiz.bot.categories.chemistry.periodictable.button
+package org.meatball.quiz.bot.categories.geography.capital.button.impl
 
 import org.meatball.quiz.bot.categories.geography.capital.enums.CapitalRegionButtonCommand
-import org.meatball.quiz.bot.categories.geography.core.state.updateUserRegionConfig
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageComponents
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
+import org.meatball.quiz.bot.commons.singletone.countryService
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
-import kotlin.collections.contains
 
-class PeriodicTableModeChosenButtonCommandHandler : ButtonCommandService {
+class CapitalRegionChosenHandler : ButtonCommandService {
 
     override val enum get() = null
     override val buttonText get() = null
@@ -29,7 +28,7 @@ class PeriodicTableModeChosenButtonCommandHandler : ButtonCommandService {
     private fun getCapitalModeResponse(cbQuery: CallbackQuery): SendMessageResponse {
         val capitalMode = CapitalRegionButtonCommand.map.getValue(cbQuery.data)
 
-        updateUserRegionConfig(cbQuery.from.id.toString(), capitalMode.region)
+        countryService.updateRegion(cbQuery.from.id.toString(), capitalMode.region)
 
         val firstMessage = SendMessageComponents(
             text = "Будут отображаться столицы региона: ${capitalMode.region.l10n}",

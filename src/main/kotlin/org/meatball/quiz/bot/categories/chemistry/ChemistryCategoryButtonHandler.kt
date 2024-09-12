@@ -1,14 +1,12 @@
-package org.meatball.quiz.bot.categories.handler
+package org.meatball.quiz.bot.categories.chemistry
 
 import org.meatball.quiz.bot.categories.MainMenuCategoryButton
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageComponents
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
-import org.meatball.quiz.bot.commons.singletone.keyboardButtonFactory
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup.InlineKeyboardMarkupBuilder
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 
 class ChemistryCategoryButtonHandler : ButtonCommandService {
 

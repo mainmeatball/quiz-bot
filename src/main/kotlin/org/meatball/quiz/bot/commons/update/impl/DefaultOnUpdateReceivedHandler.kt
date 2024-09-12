@@ -9,8 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.Update
 class DefaultOnUpdateReceivedHandler : OnUpdateReceivedHandler {
 
     override fun doHandle(update: Update): SendMessageResponse = when {
-        update.hasCallbackQuery() -> buttonCommandManager.doHandle(update)
-        else -> slashCommandManager.doHandle(update)
+        update.hasCallbackQuery() -> buttonCommandManager.handle(update)
+        else -> slashCommandManager.handle(update)
     }
 
     private companion object {

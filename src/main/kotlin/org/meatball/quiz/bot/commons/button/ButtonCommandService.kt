@@ -1,7 +1,6 @@
 package org.meatball.quiz.bot.commons.button
 
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
-import org.meatball.quiz.bot.commons.enums.ButtonCommand
 import org.meatball.quiz.bot.commons.singletone.keyboardButtonFactory
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton

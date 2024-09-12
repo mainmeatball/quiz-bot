@@ -15,7 +15,7 @@ data class SendMessageResponse(
         fun single(msg: SendMessageComponents) = SendMessageResponse(listOf(msg))
 
         fun single(text: String?, photo: File?, keyboard: InlineKeyboardMarkup.InlineKeyboardMarkupBuilder? = null) = SendMessageResponse(
-            listOf(SendMessageComponents(text, photo, keyboard))
+            listOf(SendMessageComponents(text, null, photo, keyboard))
         )
     }
 }

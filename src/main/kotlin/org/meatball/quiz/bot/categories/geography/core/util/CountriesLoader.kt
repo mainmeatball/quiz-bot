@@ -19,8 +19,8 @@ data class JsonCountry(
     val region: String
 )
 
-fun getCountryInfoMapByAlpha2(): Map<String, JsonCountry> {
+fun loadCounties(): List<JsonCountry> {
     val countries = File(COUNTRIES_JSON_FILE_PATH)
     val countriesJson = json.decodeFromString<List<JsonCountry>>(countries.readText())
-    return countriesJson.associateBy { it.alpha2 }
+    return countriesJson
 }

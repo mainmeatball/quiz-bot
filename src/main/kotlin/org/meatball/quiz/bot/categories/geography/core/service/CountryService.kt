@@ -1,19 +1,22 @@
 package org.meatball.quiz.bot.categories.geography.core.service
 
-import org.meatball.quiz.bot.categories.geography.core.util.getCountryInfoMapByAlpha2
-import org.meatball.quiz.bot.categories.geography.flag.dao.FlagDao
-import org.meatball.quiz.bot.categories.geography.country.dao.GeoDao
 import org.meatball.quiz.bot.categories.geography.core.enums.Region
-import org.meatball.quiz.bot.categories.geography.core.state.getUserRegion
 import org.meatball.quiz.bot.categories.geography.core.util.JsonCountry
+import org.meatball.quiz.bot.categories.geography.core.util.loadCounties
+import org.meatball.quiz.bot.categories.geography.country.dao.GeoDao
 import org.meatball.quiz.bot.categories.geography.country.entity.Country
+import org.meatball.quiz.bot.categories.geography.flag.dao.FlagDao
+import java.util.Optional
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.jvm.optionals.getOrNull
+import kotlin.math.max
 
 class CountryService {
 
     private val flagDao = FlagDao()
     private val geoDao = GeoDao()
-    private val countryInfoMap = getCountryInfoMapByAlpha2()
-    private val regions = countryInfoMap.values.groupBy { it.region }
+    private val countriesByAlpha2 = loadCounties().associateBy { it.alpha2 }
+    private val regions = countriesByAlpha2.values.groupBy { it.region }
     private val europe = regions.getValue(Region.EUROPE.humanName.replaceFirstChar { it.uppercase() }).map { it.alpha2 }
     private val asia = regions.getValue(Region.ASIA.humanName.replaceFirstChar { it.uppercase() }).map { it.alpha2 }
     private val oceania = regions.getValue(Region.OCEANIA.humanName.replaceFirstChar { it.uppercase() }).map { it.alpha2 }
@@ -34,30 +37,38 @@ class CountryService {
         Region.DEPENDENT to dependent,
         Region.WORLD_PLUS to worldPlus
     )
-    private val userStateMap = hashMapOf<String, UserState>()
+    private val userStateMap = ConcurrentHashMap<String, Optional<UserState>>()
 
-    fun getNextCountryInfo(userId: String): Country {
-        val nextCountryUserState = getNextCountryUserState(userId)
-        val nextCountryAlpha2 = nextCountryUserState.currentCountry()
-        val flagFile = flagDao.getByAlpha2(nextCountryAlpha2)
-        val geoFile = geoDao.getByAlpha2(nextCountryAlpha2)
-        val countryInfo = countryInfoMap.getValue(nextCountryAlpha2)
-        return Country(
-            nextCountryAlpha2,
-            constructCountryNameAnswer(countryInfo, nextCountryUserState),
-            countryInfo.capitalRu,
-            flagFile,
-            geoFile
-        )
+    fun getNextCountry(userId: String): Country {
+        val nextCountryUserState = getCountryUserState(userId, next = true)
+        return constructCountry(nextCountryUserState)
     }
 
-    private fun getNextCountryUserState(userId: String): UserState {
-        var userState = userStateMap[userId] ?: defaultUserState()
-        val userRegionConfig = getUserRegion(userId)
-        if (userRegionConfig !== userState.region || userState.isLastCountry()) {
-            userState = reshuffleUserCollection(userId, userRegionConfig)
+    fun getCurrentCountry(userId: String): Country {
+        return constructCountry(getCountryUserState(userId))
+    }
+
+    fun updateRegion(userId: String, region: Region) {
+        reshuffleUserCollection(userId, region)
+    }
+
+    fun clearUserState(userId: String) {
+        userStateMap[userId] = Optional.empty()
+    }
+
+    private fun getCountryUserState(userId: String, next: Boolean = false): UserState {
+        val currentUserState = userStateMap[userId]?.getOrNull()
+        val defaultUserState = currentUserState == null
+        var userState = userStateMap[userId]?.getOrNull() ?: defaultUserState()
+        when {
+            defaultUserState ->
+                userStateMap[userId] = Optional.of(userState)
+            userState.isLastCountry() ->
+                reshuffleUserCollection(userId, userState.region)
         }
-        userState.index++
+        if (next) {
+            userState.index++
+        }
         return userState
     }
 
@@ -67,7 +78,7 @@ class CountryService {
             index = -1,
             region = region
         )
-        userStateMap[userId] = userState
+        userStateMap[userId] = Optional.of(userState)
         return userState
     }
 
@@ -76,6 +87,20 @@ class CountryService {
         index = -1,
         region = Region.WORLD
     )
+
+    private fun constructCountry(userState: UserState): Country {
+        val iso2 = userState.currentCountry()
+        val flagFile = flagDao.getByAlpha2(iso2)
+        val geoFile = geoDao.getByAlpha2(iso2)
+        val countryInfo = countriesByAlpha2.getValue(iso2)
+        return Country(
+            iso2,
+            constructCountryNameAnswer(countryInfo, userState),
+            countryInfo.capitalRu,
+            flagFile,
+            geoFile
+        )
+    }
 
     private fun constructCountryNameAnswer(jsonCountry: JsonCountry, userState: UserState): String {
         val counter = "${userState.index + 1}/${userState.countries.lastIndex + 1}"
@@ -89,6 +114,6 @@ class CountryService {
     ) {
         fun isLastCountry() = countries.lastIndex == index
 
-        fun currentCountry() = countries[index]
+        fun currentCountry() = countries[max(index, 0)]
     }
 }

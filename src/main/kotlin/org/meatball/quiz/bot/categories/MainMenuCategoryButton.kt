@@ -1,11 +1,11 @@
 package org.meatball.quiz.bot.categories
 
-import org.meatball.quiz.bot.categories.handler.ArtCategoryButtonHandler
-import org.meatball.quiz.bot.categories.handler.ChemistryCategoryButtonHandler
-import org.meatball.quiz.bot.categories.handler.GeographyCategoryButtonHandler
-import org.meatball.quiz.bot.categories.handler.QuestionsCategoryButtonHandler
+import org.meatball.quiz.bot.categories.art.ArtCategoryButtonHandler
+import org.meatball.quiz.bot.categories.chemistry.ChemistryCategoryButtonHandler
+import org.meatball.quiz.bot.categories.geography.GeographyCategoryButtonHandler
+import org.meatball.quiz.bot.categories.questions.QuestionsCategoryButtonHandler
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
-import org.meatball.quiz.bot.commons.enums.ButtonCommand
+import org.meatball.quiz.bot.commons.button.ButtonCommand
 
 enum class MainMenuCategoryButton(
     override val key: String,

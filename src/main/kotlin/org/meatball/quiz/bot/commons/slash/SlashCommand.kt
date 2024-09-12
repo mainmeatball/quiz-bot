@@ -1,7 +1,6 @@
-package org.meatball.quiz.bot.commons.enums
+package org.meatball.quiz.bot.commons.slash
 
-import org.meatball.quiz.bot.commons.command.SlashCommandService
-import org.meatball.quiz.bot.commons.command.impl.MainMenuSlashCommandHandler
+import org.meatball.quiz.bot.commons.slash.impl.MainMenuSlashCommandHandler
 
 enum class SlashCommand(val key: String, val service: SlashCommandService) {
     START("/start", MainMenuSlashCommandHandler()),

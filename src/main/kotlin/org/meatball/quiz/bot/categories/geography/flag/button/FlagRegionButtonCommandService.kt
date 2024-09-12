@@ -1,10 +1,10 @@
 package org.meatball.quiz.bot.categories.geography.flag.button
 
 import org.meatball.quiz.bot.categories.geography.flag.enums.FlagRegionButtonCommand
+import org.meatball.quiz.bot.categories.geography.flag.service.getNextFlagQuestion
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
 import org.meatball.quiz.bot.commons.singletone.keyboardButtonFactory
-import org.meatball.quiz.bot.commons.singletone.nextFlagQuestionProvider
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 
@@ -23,7 +23,7 @@ abstract class FlagRegionButtonCommandService : ButtonCommandService {
         val userId = cbQuery.from.id.toString()
 
         // Get user state
-        val nextFlagQuestion = nextFlagQuestionProvider.getNextFlagQuestion(userId)
+        val nextFlagQuestion = getNextFlagQuestion(userId)
         return SendMessageResponse.single(nextFlagQuestion)
     }
 

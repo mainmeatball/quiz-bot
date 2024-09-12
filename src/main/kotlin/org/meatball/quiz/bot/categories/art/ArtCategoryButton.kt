@@ -1,8 +1,8 @@
 package org.meatball.quiz.bot.categories.art
 
-import org.meatball.quiz.bot.categories.geography.capital.button.impl.CapitalRegionMenuButtonCommandHandler
-import org.meatball.quiz.bot.categories.geography.country.button.impl.CountryRegionMenuButtonCommandHandler
-import org.meatball.quiz.bot.categories.geography.flag.button.impl.FlagRegionMenuButtonCommandHandler
+import org.meatball.quiz.bot.categories.geography.capital.CapitalRegionMenuButtonCommandHandler
+import org.meatball.quiz.bot.categories.geography.country.CountryRegionMenuButtonCommandHandler
+import org.meatball.quiz.bot.categories.geography.flag.FlagRegionMenuButtonCommandHandler
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
 
 enum class ArtCategoryButton(val key: String, val service: ButtonCommandService) {

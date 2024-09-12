@@ -1,21 +1,27 @@
 package org.meatball.quiz.bot.commons
 
 
-import org.meatball.quiz.bot.commons.update.OnUpdateReceivedHandler
+import org.meatball.quiz.bot.commons.slash.SlashCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
-import org.meatball.quiz.bot.commons.enums.SlashCommand
+import org.meatball.quiz.bot.commons.slash.SlashCommand
+import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.Update
 
-class SlashCommandManager : OnUpdateReceivedHandler {
+class SlashCommandManager {
 
-    override fun doHandle(update: Update): SendMessageResponse {
+    fun handle(update: Update): SendMessageResponse {
         val msg = update.message
 
-        return when {
-            // Main menu options
-            SlashCommand.MAIN_MENU.service.suitableFor(msg) -> SlashCommand.MAIN_MENU.service.getResponse(msg)
+        // Main menu
+        handle(SlashCommand.MAIN_MENU.service, msg)?.let { return it }
 
-            else -> SendMessageResponse(emptyList())
+        return SendMessageResponse(emptyList())
+    }
+
+    fun handle(service: SlashCommandService, msg: Message): SendMessageResponse? {
+        if (service.suitableFor(msg)) {
+            return service.getResponse(msg)
         }
+        return null
     }
 }

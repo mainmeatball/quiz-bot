@@ -4,7 +4,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import java.io.File
 
 data class SendMessageComponents(
-    val text: String?,
+    val text: String? = null,
+    val caption: String? = null,
     val photo: File? = null,
     val keyboard: InlineKeyboardMarkup.InlineKeyboardMarkupBuilder? = null,
     val messageId: Int? = null
