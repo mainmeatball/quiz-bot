@@ -1,8 +1,8 @@
 package org.meatball.quiz.bot
 
-import org.meatball.quiz.bot.answer.dto.SendMessageOrPhoto
-import org.meatball.quiz.bot.token.getTelegramBotToken
-import org.meatball.quiz.bot.update.impl.DefaultOnUpdateReceivedHandler
+import org.meatball.quiz.bot.commons.dto.SendMessageOrPhoto
+import org.meatball.quiz.bot.config.tgtoken.getTelegramBotToken
+import org.meatball.quiz.bot.commons.update.impl.DefaultOnUpdateReceivedHandler
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
