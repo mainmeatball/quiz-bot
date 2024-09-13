@@ -5,7 +5,6 @@ import org.meatball.quiz.bot.categories.chemistry.periodictable.enums.PeriodicTa
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageComponents
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
-import org.meatball.quiz.bot.commons.singletone.countryService
 import org.meatball.quiz.bot.commons.singletone.periodicTableService
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
@@ -24,7 +23,8 @@ class PeriodicTableMenuButtonCommandHandler : ButtonCommandService {
 
     private fun keyboard(): InlineKeyboardMarkupBuilder {
         return InlineKeyboardMarkup.builder()
-            .keyboardRow(listOf(PeriodicTableMode.BY_ORDINAL.service.getButton()))
+            .keyboardRow(listOf(PeriodicTableMode.BY_ORDINAL_SEQ.service.getButton()))
+            .keyboardRow(listOf(PeriodicTableMode.BY_ORDINAL_RANDOM.service.getButton()))
             .keyboardRow(listOf(PeriodicTableMode.BY_SYMBOL.service.getButton()))
             .keyboardRow(listOf(PeriodicTableMode.BY_NAME.service.getButton()))
     }

@@ -14,11 +14,13 @@ fun getLastPeriodicTableAnswer(userId: String): SendMessageComponents {
     )
 }
 
-fun getNextPeriodicTableQuestion(userId: String, periodicTableMode: PeriodicTableMode): SendMessageComponents {
+fun getNextPeriodicTableQuestion(userId: String): SendMessageComponents {
+    val mode = periodicTableService.getCurrentMode(userId)
     val nextElement = periodicTableService.getNext(userId)
-    val text = when (periodicTableMode) {
+    val text = when (mode) {
+        PeriodicTableMode.BY_ORDINAL_SEQ -> nextElement.number.toString()
+        PeriodicTableMode.BY_ORDINAL_RANDOM -> nextElement.number.toString()
         PeriodicTableMode.BY_SYMBOL -> nextElement.symbol
-        PeriodicTableMode.BY_ORDINAL -> nextElement.number.toString()
         PeriodicTableMode.BY_NAME -> nextElement.ruName
     }
     return SendMessageComponents(

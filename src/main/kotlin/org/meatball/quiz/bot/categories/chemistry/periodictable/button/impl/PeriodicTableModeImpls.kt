@@ -9,10 +9,16 @@ class PeriodicTableBySymbolModeButtonCommandHandler : PeriodicTableModeButtonCom
         get() = PeriodicTableMode.BY_SYMBOL
 }
 
-class PeriodicTableByOrdinalModeButtonCommandHandler : PeriodicTableModeButtonCommandService() {
+class PeriodicTableByOrdinalSeqModeButtonCommandHandler : PeriodicTableModeButtonCommandService() {
 
     override val periodicTableMode
-        get() = PeriodicTableMode.BY_ORDINAL
+        get() = PeriodicTableMode.BY_ORDINAL_SEQ
+}
+
+class PeriodicTableByOrdinalRandomModeButtonCommandHandler : PeriodicTableModeButtonCommandService() {
+
+    override val periodicTableMode
+        get() = PeriodicTableMode.BY_ORDINAL_RANDOM
 }
 
 class PeriodicTableByNameModeButtonCommandHandler : PeriodicTableModeButtonCommandService() {

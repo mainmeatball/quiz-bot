@@ -17,7 +17,7 @@ abstract class PeriodicTableModeButtonCommandService : ButtonCommandService {
         val userId = cbQuery.from.id.toString()
 
         // Get user state
-        val nextPeriodicTableQuestion = getNextPeriodicTableQuestion(userId, periodicTableMode)
+        val nextPeriodicTableQuestion = getNextPeriodicTableQuestion(userId)
         return SendMessageResponse.single(nextPeriodicTableQuestion)
     }
 }

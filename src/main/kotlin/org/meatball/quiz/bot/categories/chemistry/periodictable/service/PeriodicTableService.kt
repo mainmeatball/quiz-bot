@@ -11,10 +11,8 @@ import kotlin.math.max
 
 class PeriodicTableService {
 
-    private val periodicTable = periodicTableDao.getPeriodicTable()
-    private val periodicTableBySymbol = periodicTable.associateBy { it.symbol }
-    private val periodicTableByNumber = periodicTable.associateBy { it.number }
-    private val periodicTableByRuName = periodicTable.associateBy { it.ruName }
+    private val periodicTableList = periodicTableDao.getPeriodicTable()
+    private val periodicTableByNumberAsc = periodicTableList.sortedBy { it.number }
     private val userStateMap = ConcurrentHashMap<String, Optional<UserState>>()
 
     fun getNext(userId: String): PeriodicTable {
@@ -56,12 +54,13 @@ class PeriodicTableService {
 
     private fun reshuffleUserCollection(userId: String, mode: PeriodicTableMode): UserState {
         val elements = when (mode) {
-            PeriodicTableMode.BY_ORDINAL -> periodicTableByNumber
-            PeriodicTableMode.BY_SYMBOL -> periodicTableBySymbol
-            PeriodicTableMode.BY_NAME -> periodicTableByRuName
+            PeriodicTableMode.BY_ORDINAL_SEQ -> periodicTableByNumberAsc
+            PeriodicTableMode.BY_ORDINAL_RANDOM -> periodicTableByNumberAsc.shuffled()
+            PeriodicTableMode.BY_SYMBOL -> periodicTableList.shuffled()
+            PeriodicTableMode.BY_NAME -> periodicTableList.shuffled()
         }
         val userState = UserState(
-            elements = elements.values.toList(),
+            elements = elements,
             index = -1,
             mode = mode
         )
@@ -70,9 +69,9 @@ class PeriodicTableService {
     }
 
     private fun defaultUserState() = UserState(
-        elements = periodicTable.shuffled(),
+        elements = periodicTableList.shuffled(),
         index = -1,
-        mode = PeriodicTableMode.BY_ORDINAL
+        mode = PeriodicTableMode.BY_ORDINAL_SEQ
     )
 
     private fun constructPeriodicTable(userState: UserState): PeriodicTable {
@@ -93,7 +92,7 @@ class PeriodicTableService {
             ${element.symbol}
             ${element.ruName}
             ${element.enName}
-            $counter
+            ($counter)
         """.trimIndent()
     }
 
