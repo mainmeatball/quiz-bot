@@ -11,8 +11,13 @@ import org.meatball.quiz.bot.categories.geography.country.button.impl.EuropeCoun
 import org.meatball.quiz.bot.categories.geography.country.button.impl.OceaniaCountriesButtonCommandHandler
 import org.meatball.quiz.bot.categories.geography.country.button.impl.WorldCountriesButtonCommandHandler
 import org.meatball.quiz.bot.categories.geography.country.button.impl.WorldPlusCountriesButtonCommandHandler
+import org.meatball.quiz.bot.commons.button.ButtonCommand
 
-enum class CountryRegionButtonCommand(val key: String, val region: Region, val service: ButtonCommandService) {
+enum class CountryRegionButtonCommand(
+    override val key: String,
+    val region: Region,
+    override val service: ButtonCommandService
+) : ButtonCommand {
     WORLD("cu_w", Region.WORLD, WorldCountriesButtonCommandHandler()),
     EUROPE("cu_eu", Region.EUROPE, EuropeCountriesButtonCommandHandler()),
     ASIA("cu_asia", Region.ASIA, AsiaCountriesButtonCommandHandler()),

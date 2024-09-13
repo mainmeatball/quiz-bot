@@ -2,8 +2,9 @@ package org.meatball.quiz.bot.commons
 
 
 import org.meatball.quiz.bot.categories.MainMenuCategoryButton
+import org.meatball.quiz.bot.categories.chemistry.ChemistryCategoryButtonCommandManager
 import org.meatball.quiz.bot.categories.geography.GeographyCategoryButtonCommandManager
-import org.meatball.quiz.bot.commons.button.ButtonCommandService
+import org.meatball.quiz.bot.commons.button.CommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 import org.telegram.telegrambots.meta.api.objects.Update
@@ -20,16 +21,18 @@ class ButtonCommandManager {
         doHandle(MainMenuCategoryButton.QUESTIONS.service, cbQuery)?.let { return it }
 
         geographyCategoryManager.handle(update)?.let { return it }
+        chemistryCategoryManager.handle(update)?.let { return it }
 
         return SendMessageResponse(emptyList())
     }
 
     private companion object {
         private val geographyCategoryManager = GeographyCategoryButtonCommandManager()
+        private val chemistryCategoryManager = ChemistryCategoryButtonCommandManager()
     }
 }
 
-fun doHandle(service: ButtonCommandService, cbQuery: CallbackQuery): SendMessageResponse? {
+fun doHandle(service: CommandService, cbQuery: CallbackQuery): SendMessageResponse? {
     if (service.suitableFor(cbQuery)) {
         return service.getResponse(cbQuery)
     }

@@ -7,14 +7,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup.InlineKeyboardMarkupBuilder
 
 fun getLastCountryAnswer(userId: String): SendMessageComponents {
-    val lastCountry = countryService.getCurrentCountry(userId)
+    val lastCountry = countryService.getCurrent(userId)
     return SendMessageComponents(
         caption = lastCountry.name,
     )
 }
 
 fun getNextCountryQuestion(userId: String): SendMessageComponents {
-    val nextCountry = countryService.getNextCountry(userId)
+    val nextCountry = countryService.getNext(userId)
     return SendMessageComponents(
         text = null,
         photo = nextCountry.geo,

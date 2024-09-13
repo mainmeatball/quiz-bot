@@ -4,14 +4,12 @@ import org.meatball.quiz.bot.categories.geography.capital.enums.CapitalRegionBut
 import org.meatball.quiz.bot.categories.geography.capital.service.getNextCapitalQuestion
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
-import org.meatball.quiz.bot.commons.singletone.keyboardButtonFactory
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 
 abstract class CapitalRegionButtonCommandService : ButtonCommandService {
 
-    override val enum get() = null
-    override val buttonText get() = null
+    override val enum get() = capitalRegionButtonCommand
+    override val buttonText get() = capitalRegionButtonCommand.region.l10n
 
     abstract val capitalRegionButtonCommand: CapitalRegionButtonCommand
 
@@ -21,9 +19,5 @@ abstract class CapitalRegionButtonCommandService : ButtonCommandService {
         // Get user state
         val nextCapitalQuestion = getNextCapitalQuestion(userId)
         return SendMessageResponse.single(nextCapitalQuestion)
-    }
-
-    override fun getButton(vararg params: Any): InlineKeyboardButton {
-        return keyboardButtonFactory.button(capitalRegionButtonCommand.region.l10n, capitalRegionButtonCommand.key)
     }
 }

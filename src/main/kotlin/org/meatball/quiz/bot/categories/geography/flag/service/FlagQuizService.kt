@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup.InlineKeyboardMarkupBuilder
 
 fun getLastFlagAnswer(userId: String): SendMessageComponents {
-    val lastCountryInfo = countryService.getCurrentCountry(userId)
+    val lastCountryInfo = countryService.getCurrent(userId)
     return SendMessageComponents(
         text = lastCountryInfo.name,
         photo = lastCountryInfo.geo,
@@ -15,7 +15,7 @@ fun getLastFlagAnswer(userId: String): SendMessageComponents {
 }
 
 fun getNextFlagQuestion(userId: String): SendMessageComponents {
-    val nextCountryInfo = countryService.getNextCountry(userId)
+    val nextCountryInfo = countryService.getNext(userId)
     return SendMessageComponents(
         text = null,
         photo = nextCountryInfo.flag,

@@ -11,8 +11,13 @@ import org.meatball.quiz.bot.categories.geography.flag.button.impl.OceaniaFlagsB
 import org.meatball.quiz.bot.categories.geography.flag.button.impl.WorldFlagsButtonCommandHandler
 import org.meatball.quiz.bot.categories.geography.flag.button.impl.WorldPlusFlagsButtonCommandHandler
 import org.meatball.quiz.bot.categories.geography.core.enums.Region
+import org.meatball.quiz.bot.commons.button.ButtonCommand
 
-enum class FlagRegionButtonCommand(val key: String, val region: Region, val service: ButtonCommandService) {
+enum class FlagRegionButtonCommand(
+    override val key: String,
+    val region: Region,
+    override val service: ButtonCommandService
+) : ButtonCommand {
     WORLD("fl_w", Region.WORLD, WorldFlagsButtonCommandHandler()),
     EUROPE("fl_eu", Region.EUROPE, EuropeFlagsButtonCommandHandler()),
     ASIA("fl_asia", Region.ASIA, AsiaFlagsButtonCommandHandler()),

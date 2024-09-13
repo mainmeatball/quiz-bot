@@ -39,24 +39,24 @@ class CountryService {
     )
     private val userStateMap = ConcurrentHashMap<String, Optional<UserState>>()
 
-    fun getNextCountry(userId: String): Country {
-        val nextCountryUserState = getCountryUserState(userId, next = true)
-        return constructCountry(nextCountryUserState)
+    fun getNext(userId: String): Country {
+        val nextUserState = getUserState(userId, next = true)
+        return constructCountry(nextUserState)
     }
 
-    fun getCurrentCountry(userId: String): Country {
-        return constructCountry(getCountryUserState(userId))
+    fun getCurrent(userId: String): Country {
+        return constructCountry(getUserState(userId))
     }
 
-    fun updateRegion(userId: String, region: Region) {
-        reshuffleUserCollection(userId, region)
+    fun updateMode(userId: String, mode: Region) {
+        reshuffleUserCollection(userId, mode)
     }
 
     fun clearUserState(userId: String) {
         userStateMap[userId] = Optional.empty()
     }
 
-    private fun getCountryUserState(userId: String, next: Boolean = false): UserState {
+    private fun getUserState(userId: String, next: Boolean = false): UserState {
         val currentUserState = userStateMap[userId]?.getOrNull()
         val defaultUserState = currentUserState == null
         var userState = userStateMap[userId]?.getOrNull() ?: defaultUserState()
@@ -95,14 +95,14 @@ class CountryService {
         val countryInfo = countriesByAlpha2.getValue(iso2)
         return Country(
             iso2,
-            constructCountryNameAnswer(countryInfo, userState),
+            constructTextAnswer(countryInfo, userState),
             countryInfo.capitalRu,
             flagFile,
             geoFile
         )
     }
 
-    private fun constructCountryNameAnswer(jsonCountry: JsonCountry, userState: UserState): String {
+    private fun constructTextAnswer(jsonCountry: JsonCountry, userState: UserState): String {
         val counter = "${userState.index + 1}/${userState.countries.lastIndex + 1}"
         return "${jsonCountry.nameRu} - ${jsonCountry.capitalRu} ($counter)"
     }

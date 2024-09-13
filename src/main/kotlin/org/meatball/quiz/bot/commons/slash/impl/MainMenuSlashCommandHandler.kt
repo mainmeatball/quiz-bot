@@ -7,6 +7,7 @@ import org.meatball.quiz.bot.commons.dto.SendMessageResponse
 import org.meatball.quiz.bot.commons.singletone.countryService
 import org.meatball.quiz.bot.commons.slash.SlashCommand
 import org.meatball.quiz.bot.commons.singletone.keyboardButtonFactory
+import org.meatball.quiz.bot.commons.singletone.periodicTableService
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup.InlineKeyboardMarkupBuilder
@@ -26,11 +27,12 @@ class MainMenuSlashCommandHandler : SlashCommandService {
     override fun getResponse(msg: Message): SendMessageResponse {
         val messageComponents = SendMessageComponents("Выберите категорию", keyboard = keyboard())
         countryService.clearUserState(msg.from.id.toString())
+        periodicTableService.clearUserState(msg.from.id.toString())
         return SendMessageResponse.single(messageComponents)
     }
 
     private fun keyboard(): InlineKeyboardMarkupBuilder {
         return InlineKeyboardMarkup.builder()
-            .keyboardRow(listOf(MainMenuCategoryButton.GEOGRAPHY.service.getButton()))
+            .keyboardRow(listOf(MainMenuCategoryButton.GEOGRAPHY.service.getButton(), MainMenuCategoryButton.CHEMISTRY.service.getButton()))
     }
 }

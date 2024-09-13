@@ -24,6 +24,6 @@ class ChemistryCategoryButtonHandler : ButtonCommandService {
 
     private fun keyboard(): InlineKeyboardMarkupBuilder {
         return InlineKeyboardMarkup.builder()
-            .keyboardRow(listOf())
+            .keyboardRow(listOf(ChemistryMenuButton.PERIODIC_TABLE.service.getButton()))
     }
 }

@@ -1,15 +1,15 @@
 package org.meatball.quiz.bot.categories.chemistry.periodictable.dao
 
 import kotlinx.serialization.json.Json
-import org.meatball.quiz.bot.categories.chemistry.periodictable.entity.PeriodicTable
+import org.meatball.quiz.bot.categories.chemistry.periodictable.entity.PeriodicTableJson
 import org.meatball.quiz.bot.config.PATH_TO_RESOURCES
 import java.io.File
 
 class PeriodicTableDao {
 
-    fun getPeriodicTable(): List<PeriodicTable> {
+    fun getPeriodicTable(): List<PeriodicTableJson> {
         val periodicTable = File(PERIODIC_TABLE_JSON_FILE_PATH)
-        val periodicTableJson = json.decodeFromString<List<PeriodicTable>>(periodicTable.readText())
+        val periodicTableJson = json.decodeFromString<List<PeriodicTableJson>>(periodicTable.readText())
         return periodicTableJson
     }
 

@@ -1,7 +1,6 @@
 package org.meatball.quiz.bot.categories.geography
 
 import org.meatball.quiz.bot.categories.MainMenuCategoryButton
-import org.meatball.quiz.bot.categories.geography.enums.GeographyCategoryButton
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageComponents
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
@@ -25,7 +24,7 @@ class GeographyCategoryButtonHandler : ButtonCommandService {
 
     private fun keyboard(): InlineKeyboardMarkupBuilder {
         return InlineKeyboardMarkup.builder()
-            .keyboardRow(listOf(GeographyCategoryButton.FLAG_REGION_MENU.service.getButton(), GeographyCategoryButton.COUNTRY_REGION_MENU.service.getButton()))
-            .keyboardRow(listOf(GeographyCategoryButton.CAPITAL_REGION_MENU.service.getButton()))
+            .keyboardRow(listOf(GeographyMenuButton.FLAG_REGION_MENU.service.getButton(), GeographyMenuButton.COUNTRY_REGION_MENU.service.getButton()))
+            .keyboardRow(listOf(GeographyMenuButton.CAPITAL_REGION_MENU.service.getButton()))
     }
 }

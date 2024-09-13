@@ -1,7 +1,7 @@
 package org.meatball.quiz.bot.categories.geography.capital
 
 import org.meatball.quiz.bot.categories.geography.capital.enums.CapitalRegionButtonCommand
-import org.meatball.quiz.bot.categories.geography.enums.GeographyCategoryButton
+import org.meatball.quiz.bot.categories.geography.GeographyMenuButton
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageComponents
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 
 class CapitalRegionMenuButtonCommandHandler : ButtonCommandService {
 
-    override val enum get() = GeographyCategoryButton.CAPITAL_REGION_MENU
+    override val enum get() = GeographyMenuButton.CAPITAL_REGION_MENU
     override val buttonText get() = "Столицы"
 
     override fun getResponse(cbQuery: CallbackQuery): SendMessageResponse {

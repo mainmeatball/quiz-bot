@@ -2,7 +2,12 @@ package org.meatball.quiz.bot.categories.chemistry.periodictable.service
 
 import org.meatball.quiz.bot.categories.chemistry.periodictable.dao.PeriodicTableDao
 import org.meatball.quiz.bot.categories.chemistry.periodictable.entity.PeriodicTable
-import org.meatball.quiz.bot.categories.chemistry.periodictable.enums.PeriodicTableModeButtonCommand
+import org.meatball.quiz.bot.categories.chemistry.periodictable.entity.PeriodicTableJson
+import org.meatball.quiz.bot.categories.chemistry.periodictable.enums.PeriodicTableMode
+import java.util.Optional
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.jvm.optionals.getOrNull
+import kotlin.math.max
 
 class PeriodicTableService {
 
@@ -10,60 +15,96 @@ class PeriodicTableService {
     private val periodicTableBySymbol = periodicTable.associateBy { it.symbol }
     private val periodicTableByNumber = periodicTable.associateBy { it.number }
     private val periodicTableByRuName = periodicTable.associateBy { it.ruName }
-    private val periodicTableByEnName = periodicTable.associateBy { it.enName }
-    private val userStateMap = hashMapOf<String, UserState>()
+    private val userStateMap = ConcurrentHashMap<String, Optional<UserState>>()
 
-//    fun getNextElementInfo(userId: String): PeriodicTable {
-//        val nextElementUserState = getNextElementUserState(userId)
-//        val nextElement = nextElementUserState.currentElement()
-//        return nextElement
-//    }
+    fun getNext(userId: String): PeriodicTable {
+        val nextUserState = getUserState(userId, next = true)
+        return constructPeriodicTable(nextUserState)
+    }
 
-//    private fun getNextElementUserState(userId: String): UserState {
-//        var userState = userStateMap[userId] ?: defaultUserState()
-//        val userPeriodicTableConfig = userState.periodicTableMode
-//        if (userPeriodicTableConfig !== userState.periodicTableMode.key || userState.isLastElement()) {
-//            val mode = PeriodicTableModeButtonCommand.mapByKey.getValue(userPeriodicTableConfig)
-//            userState = reshuffleUserCollection(userId, mode)
-//        }
-//        userState.index++
-//        return userState
-//    }
+    fun getCurrent(userId: String): PeriodicTable {
+        return constructPeriodicTable(getUserState(userId))
+    }
 
-    private fun reshuffleUserCollection(userId: String, mode: PeriodicTableModeButtonCommand): UserState {
+    fun getCurrentMode(userId: String): PeriodicTableMode {
+        return getUserState(userId).mode
+    }
+
+    fun updateConfig(userId: String, mode: PeriodicTableMode) {
+        reshuffleUserCollection(userId, mode)
+    }
+
+    fun clearUserState(userId: String) {
+        userStateMap[userId] = Optional.empty()
+    }
+
+    private fun getUserState(userId: String, next: Boolean = false): UserState {
+        val currentUserState = userStateMap[userId]?.getOrNull()
+        val defaultUserState = currentUserState == null
+        var userState = userStateMap[userId]?.getOrNull() ?: defaultUserState()
+        when {
+            defaultUserState ->
+                userStateMap[userId] = Optional.of(userState)
+            userState.isLastElement() ->
+                reshuffleUserCollection(userId, userState.mode)
+        }
+        if (next) {
+            userState.index++
+        }
+        return userState
+    }
+
+    private fun reshuffleUserCollection(userId: String, mode: PeriodicTableMode): UserState {
         val elements = when (mode) {
-            PeriodicTableModeButtonCommand.BY_ORDINAL -> periodicTableByNumber
-            PeriodicTableModeButtonCommand.BY_SYMBOL -> periodicTableBySymbol
-            PeriodicTableModeButtonCommand.BY_NAME -> periodicTableByRuName
+            PeriodicTableMode.BY_ORDINAL -> periodicTableByNumber
+            PeriodicTableMode.BY_SYMBOL -> periodicTableBySymbol
+            PeriodicTableMode.BY_NAME -> periodicTableByRuName
         }
         val userState = UserState(
             elements = elements.values.toList(),
             index = -1,
-            periodicTableMode = mode
+            mode = mode
         )
-        userStateMap[userId] = userState
+        userStateMap[userId] = Optional.of(userState)
         return userState
     }
 
     private fun defaultUserState() = UserState(
         elements = periodicTable.shuffled(),
         index = -1,
-        periodicTableMode = PeriodicTableModeButtonCommand.BY_ORDINAL
+        mode = PeriodicTableMode.BY_ORDINAL
     )
 
-    private fun constructElementAnswer(element: PeriodicTable, userState: UserState): String {
+    private fun constructPeriodicTable(userState: UserState): PeriodicTable {
+        val currentElement = userState.currentElement()
+        return PeriodicTable(
+            currentElement.symbol,
+            currentElement.number,
+            currentElement.ruName,
+            currentElement.enName,
+            constructTextAnswer(currentElement, userState)
+        )
+    }
+
+    private fun constructTextAnswer(element: PeriodicTableJson, userState: UserState): String {
         val counter = "${userState.index + 1}/${userState.elements.lastIndex + 1}"
-        return "${element.symbol} ${element.ruName} ${element.enName} - ($counter)"
+        return """
+            ${element.number}
+            ${element.symbol}
+            ${element.ruName}
+            ${element.enName}
+            $counter
+        """.trimIndent()
     }
 
     private data class UserState(
-        val elements: List<PeriodicTable>,
+        val elements: List<PeriodicTableJson>,
         var index: Int,
-        val periodicTableMode: PeriodicTableModeButtonCommand
+        val mode: PeriodicTableMode
     ) {
         fun isLastElement() = elements.lastIndex == index
 
-        fun currentElement() = elements[index]
+        fun currentElement() = elements[max(index, 0)]
     }
 
     private companion object {

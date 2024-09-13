@@ -1,14 +1,9 @@
 package org.meatball.quiz.bot.categories.geography.capital.enums
 
-import org.meatball.quiz.bot.categories.geography.capital.button.impl.CapitalRegionChosenHandler
 import org.meatball.quiz.bot.categories.geography.capital.button.impl.CapitalShowAnswerHandler
-import org.meatball.quiz.bot.commons.button.ButtonCommandService
 import org.meatball.quiz.bot.commons.button.ButtonCommand
+import org.meatball.quiz.bot.commons.button.ButtonCommandService
 
-enum class CapitalButtonCommand(
-    override val key: String,
-    override val service: ButtonCommandService
-) : ButtonCommand {
-    REGION_CHOSEN("cprc", CapitalRegionChosenHandler()),
+enum class CapitalButtonCommand(override val key: String, override val service: ButtonCommandService) : ButtonCommand {
     SHOW_ANSWER("cpsa", CapitalShowAnswerHandler()),
 }

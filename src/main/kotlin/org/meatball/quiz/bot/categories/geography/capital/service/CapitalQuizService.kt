@@ -7,14 +7,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup.InlineKeyboardMarkupBuilder
 
 fun getLastCapitalAnswer(userId: String): SendMessageComponents {
-    val lastCountry = countryService.getCurrentCountry(userId)
+    val lastCountry = countryService.getCurrent(userId)
     return SendMessageComponents(
         text = lastCountry.name,
     )
 }
 
 fun getNextCapitalQuestion(userId: String): SendMessageComponents {
-    val nextCountry = countryService.getNextCountry(userId)
+    val nextCountry = countryService.getNext(userId)
     return SendMessageComponents(
         text = nextCountry.capital,
         keyboard = getShowAnswerKeyboard()

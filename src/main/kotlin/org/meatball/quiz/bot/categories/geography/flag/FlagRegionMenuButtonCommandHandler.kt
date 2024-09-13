@@ -1,6 +1,6 @@
 package org.meatball.quiz.bot.categories.geography.flag
 
-import org.meatball.quiz.bot.categories.geography.enums.GeographyCategoryButton
+import org.meatball.quiz.bot.categories.geography.GeographyMenuButton
 import org.meatball.quiz.bot.commons.dto.SendMessageComponents
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 
 class FlagRegionMenuButtonCommandHandler : ButtonCommandService {
 
-    override val enum get() = GeographyCategoryButton.FLAG_REGION_MENU
+    override val enum get() = GeographyMenuButton.FLAG_REGION_MENU
     override val buttonText get() = "Флаги"
 
     override fun getResponse(cbQuery: CallbackQuery): SendMessageResponse {
