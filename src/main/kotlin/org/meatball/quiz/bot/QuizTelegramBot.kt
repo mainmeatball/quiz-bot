@@ -1,6 +1,7 @@
 package org.meatball.quiz.bot
 
 import org.meatball.quiz.bot.commons.dto.SendMessageOrPhoto
+import org.meatball.quiz.bot.commons.singletone.picturesService
 import org.meatball.quiz.bot.config.tgtoken.getTelegramBotToken
 import org.meatball.quiz.bot.commons.update.impl.DefaultOnUpdateReceivedHandler
 import org.slf4j.Logger
@@ -16,6 +17,7 @@ class QuizTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
 
     init {
         logger.info("Telegram bot is available")
+        picturesService.clearUserState("123")
     }
 
     override fun getBotUsername(): String = "Boris Pupils Quiz Bot"

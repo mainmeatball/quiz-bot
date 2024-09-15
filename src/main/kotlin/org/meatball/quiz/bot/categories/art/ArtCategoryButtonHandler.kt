@@ -24,6 +24,6 @@ class ArtCategoryButtonHandler : ButtonCommandService {
 
     private fun keyboard(): InlineKeyboardMarkupBuilder {
         return InlineKeyboardMarkup.builder()
-            .keyboardRow(listOf())
+            .keyboardRow(listOf(ArtMenuButton.PICTURES.service.getButton()))
     }
 }

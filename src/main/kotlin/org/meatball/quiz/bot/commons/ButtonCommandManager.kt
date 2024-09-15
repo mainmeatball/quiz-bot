@@ -2,6 +2,7 @@ package org.meatball.quiz.bot.commons
 
 
 import org.meatball.quiz.bot.categories.MainMenuCategoryButton
+import org.meatball.quiz.bot.categories.art.ArtCategoryButtonCommandManager
 import org.meatball.quiz.bot.categories.chemistry.ChemistryCategoryButtonCommandManager
 import org.meatball.quiz.bot.categories.geography.GeographyCategoryButtonCommandManager
 import org.meatball.quiz.bot.commons.button.CommandService
@@ -22,6 +23,7 @@ class ButtonCommandManager {
 
         geographyCategoryManager.handle(update)?.let { return it }
         chemistryCategoryManager.handle(update)?.let { return it }
+        artCategoryManager.handle(update)?.let { return it }
 
         return SendMessageResponse(emptyList())
     }
@@ -29,6 +31,7 @@ class ButtonCommandManager {
     private companion object {
         private val geographyCategoryManager = GeographyCategoryButtonCommandManager()
         private val chemistryCategoryManager = ChemistryCategoryButtonCommandManager()
+        private val artCategoryManager = ArtCategoryButtonCommandManager()
     }
 }
 

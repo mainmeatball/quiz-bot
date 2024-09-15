@@ -1,13 +1,13 @@
 package org.meatball.quiz.bot.commons.slash.impl
 
 import org.meatball.quiz.bot.categories.MainMenuCategoryButton
-import org.meatball.quiz.bot.commons.slash.SlashCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageComponents
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
 import org.meatball.quiz.bot.commons.singletone.countryService
-import org.meatball.quiz.bot.commons.slash.SlashCommand
 import org.meatball.quiz.bot.commons.singletone.keyboardButtonFactory
 import org.meatball.quiz.bot.commons.singletone.periodicTableService
+import org.meatball.quiz.bot.commons.slash.SlashCommand
+import org.meatball.quiz.bot.commons.slash.SlashCommandService
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup.InlineKeyboardMarkupBuilder
@@ -34,5 +34,6 @@ class MainMenuSlashCommandHandler : SlashCommandService {
     private fun keyboard(): InlineKeyboardMarkupBuilder {
         return InlineKeyboardMarkup.builder()
             .keyboardRow(listOf(MainMenuCategoryButton.GEOGRAPHY.service.getButton(), MainMenuCategoryButton.CHEMISTRY.service.getButton()))
+            .keyboardRow(listOf(MainMenuCategoryButton.ART.service.getButton()))
     }
 }
