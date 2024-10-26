@@ -27,5 +27,3 @@ interface CommandService {
 
     fun getResponse(cbQuery: CallbackQuery): SendMessageResponse
 }
-
-interface ButtonAwareService

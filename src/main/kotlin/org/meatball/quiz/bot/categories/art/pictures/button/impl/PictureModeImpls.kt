@@ -8,3 +8,9 @@ class PicturesShowAllButtonCommandHandler : PicturesShowingModeButtonCommandServ
     override val picturesShowingMode
         get() = PicturesShowingMode.ALL
 }
+
+class PicturesShowTop100ButtonCommandHandler : PicturesShowingModeButtonCommandService() {
+    
+    override val picturesShowingMode
+        get() = PicturesShowingMode.TOP_100
+}

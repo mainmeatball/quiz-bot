@@ -13,6 +13,13 @@ class KeyboardButtonFactory {
         }
         return builder.build()
     }
+    
+    fun buttonWithUrl(text: String, url: String): InlineKeyboardButton {
+        val builder = InlineKeyboardButton.builder()
+            .text(text)
+            .url(url)
+        return builder.build()
+    }
 
     fun row(text: String, cb: String, inline: Boolean = false): List<InlineKeyboardButton> {
         return listOf(button(text, cb, inline))

@@ -4,17 +4,20 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ArtistJson(
+    val code: String,
     val name: String,
     val nation: String,
-    val genre: String,
     val years: String,
-    val wiki: String,
+    val genre: String,
+    val wiki: String
 )
 
 @Serializable
 data class WorkJson(
-    val id: Int,
-    val name: String,
-    val url: String,
-    val year: String,
+    val id: String,
+    val nameRu: String,
+    val nameEn: String,
+    val author: String,
+    val wiki: String,
+    val filename: String
 )

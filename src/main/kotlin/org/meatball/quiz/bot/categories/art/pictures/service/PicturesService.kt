@@ -11,12 +11,8 @@ import kotlin.math.max
 
 class PicturesService {
 
-    private val artistsWithWorksMap = picturesDao.getArtistsWithWorks()
-    private val allWorks = artistsWithWorksMap.entries.flatMap { entry ->
-        entry.value.second.map { work ->
-            entry.key to work
-        }
-    }
+    private val works = picturesDao.getWorks()
+    private val artists = picturesDao.getArtists()
     private val userStateMap = ConcurrentHashMap<String, Optional<UserState>>()
 
     fun getNext(userId: String): Picture {
@@ -58,7 +54,7 @@ class PicturesService {
 
     private fun reshuffleUserCollection(userId: String, mode: PicturesShowingMode): UserState {
         val userState = UserState(
-            elements = allWorks.shuffled(),
+            elements = works.values.shuffled(),
             index = -1,
             mode = mode
         )
@@ -67,34 +63,36 @@ class PicturesService {
     }
 
     private fun defaultUserState() = UserState(
-        elements = allWorks.shuffled(),
+        elements = works.values.shuffled(),
         index = -1,
         mode = PicturesShowingMode.ALL
     )
 
     private fun constructPicture(userState: UserState): Picture {
-        val (artistNum, work) = userState.currentElement()
-        val picture = picturesDao.getPicture(artistNum, work.id)
+        val work = userState.currentElement()
+        val picture = picturesDao.getPicture(work)
+        val artist = artists.getValue(work.author)
         return Picture(
             picture,
-            constructTextAnswer(artistNum to work, userState)
+            constructTextAnswer(work, userState),
+            work,
+            artist
         )
     }
 
-    private fun constructTextAnswer(element: Pair<String, WorkJson>, userState: UserState): String {
+    private fun constructTextAnswer(work: WorkJson, userState: UserState): String {
         val counter = "${userState.index + 1}/${userState.elements.lastIndex + 1}"
-        val (artistNum, work) = element
-        val artist = artistsWithWorksMap.getValue(artistNum).first
+        val artist = artists.getValue(work.author)
         return """
-            ${work.url} (${work.year})
-            ${artist.name}, ${artist.nation}, ${artist.genre}
+            ${work.nameRu}
+            ${artist.name}, ${artist.genre}
             ${artist.years}
+            ($counter)
         """.trimIndent()
-        //($counter)
     }
 
     private data class UserState(
-        val elements: List<Pair<String, WorkJson>>,
+        val elements: List<WorkJson>,
         var index: Int,
         val mode: PicturesShowingMode
     ) {

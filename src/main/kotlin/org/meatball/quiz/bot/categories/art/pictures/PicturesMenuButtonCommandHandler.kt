@@ -23,6 +23,6 @@ class PicturesMenuButtonCommandHandler : ButtonCommandService {
 
     private fun keyboard(): InlineKeyboardMarkupBuilder {
         return InlineKeyboardMarkup.builder()
-            .keyboardRow(listOf(PicturesShowingMode.ALL.service.getButton()))
+            .keyboardRow(listOf(PicturesShowingMode.TOP_100.service.getButton()))
     }
 }

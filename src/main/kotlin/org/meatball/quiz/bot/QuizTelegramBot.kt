@@ -17,7 +17,6 @@ class QuizTelegramBot : TelegramLongPollingBot(TG_BOT_TOKEN) {
 
     init {
         logger.info("Telegram bot is available")
-        picturesService.clearUserState("123")
     }
 
     override fun getBotUsername(): String = "Boris Pupils Quiz Bot"

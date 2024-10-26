@@ -4,5 +4,7 @@ import java.io.File
 
 data class Picture(
     val picture: File,
-    val l10n: String
+    val l10n: String,
+    val info: WorkJson,
+    val authorInfo: ArtistJson
 )
