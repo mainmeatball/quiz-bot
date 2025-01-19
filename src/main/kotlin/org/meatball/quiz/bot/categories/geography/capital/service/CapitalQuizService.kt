@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 fun getLastCapitalAnswer(userId: String): SendMessageComponents {
     val lastCountry = countryService.getCurrent(userId)
     return SendMessageComponents(
-        text = lastCountry.name,
+        text = lastCountry.answerName,
     )
 }
 

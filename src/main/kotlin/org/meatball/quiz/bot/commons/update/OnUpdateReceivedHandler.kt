@@ -32,6 +32,19 @@ interface OnUpdateReceivedHandler {
                 return@mapNotNull SendMessageOrPhoto.editCaption(message)
             }
             if (msg.photo != null) {
+                if (msg.messageId != null) {
+                    val builder = EditMessageCaption.builder()
+                        .parseMode(ParseMode.MARKDOWNV2)
+                    if (msg.keyboard != null) {
+                        builder.replyMarkup(msg.keyboard.build())
+                    }
+                    builder
+                        .chatId(update.callbackQuery?.message?.chatId ?: update.message.chatId)
+                        .messageId(msg.messageId)
+                    val message = builder
+                        .build()
+                    return@mapNotNull SendMessageOrPhoto.editCaption(message)
+                }
                 val inputFile = InputFile(msg.photo)
                 val builder = SendPhoto.builder()
                     .parseMode(ParseMode.MARKDOWNV2)

@@ -10,6 +10,8 @@ import java.util.Optional
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.jvm.optionals.getOrNull
 import kotlin.math.max
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 class CountryService {
 
@@ -56,6 +58,21 @@ class CountryService {
         userStateMap[userId] = Optional.empty()
     }
 
+    fun getFourChoices(country: Country): Pair<List<Country>, Int> {
+        val region = country.region
+        val countriesOfRegion = regionMap.getValue(region)
+        val missingAnswersN = 3
+        val result = countriesOfRegion
+            .filter { it != country.iso2a }
+            .shuffled()
+            .take(missingAnswersN)
+            .map(::constructCountry)
+            .toMutableList()
+        val randomIndex = Random.nextInt(0..result.size)
+        result.add(randomIndex, country)
+        return result to randomIndex
+    }
+
     private fun getUserState(userId: String, next: Boolean = false): UserState {
         val currentUserState = userStateMap[userId]?.getOrNull()
         val defaultUserState = currentUserState == null
@@ -95,7 +112,24 @@ class CountryService {
         val countryInfo = countriesByAlpha2.getValue(iso2)
         return Country(
             iso2,
+            countryInfo.nameRu,
             constructTextAnswer(countryInfo, userState),
+            Region.smartValueOf(countryInfo.region),
+            countryInfo.capitalRu,
+            flagFile,
+            geoFile
+        )
+    }
+
+    private fun constructCountry(alpha2: String): Country {
+        val flagFile = flagDao.getByAlpha2(alpha2)
+        val geoFile = geoDao.getByAlpha2(alpha2)
+        val countryInfo = countriesByAlpha2.getValue(alpha2)
+        return Country(
+            alpha2,
+            countryInfo.nameRu,
+            constructTextAnswer(countryInfo),
+            Region.smartValueOf(countryInfo.region),
             countryInfo.capitalRu,
             flagFile,
             geoFile
@@ -105,6 +139,10 @@ class CountryService {
     private fun constructTextAnswer(jsonCountry: JsonCountry, userState: UserState): String {
         val counter = "${userState.index + 1}/${userState.countries.lastIndex + 1}"
         return "${jsonCountry.nameRu} - ${jsonCountry.capitalRu} ($counter)"
+    }
+
+    private fun constructTextAnswer(jsonCountry: JsonCountry): String {
+        return "${jsonCountry.nameRu} - ${jsonCountry.capitalRu}"
     }
 
     private data class UserState(

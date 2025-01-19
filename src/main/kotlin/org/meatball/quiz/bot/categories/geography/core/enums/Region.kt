@@ -14,6 +14,7 @@ enum class Region(val humanName: String, val l10n: String) {
     companion object {
         private val regionByName = entries.associateBy { it.humanName }
 
-        fun smartValueOf(key: String) = regionByName[key]
+        fun smartValueOf(key: String) = regionByName[key.lowercase()]
+            ?: error("Unknown region key = $key")
     }
 }

@@ -23,10 +23,12 @@ class GeographyCategoryButtonCommandManager {
         // Flag button options
         doHandle(flagRegionChosenHandler, cbQuery)?.let { return it }
         doHandle(FlagButtonCommand.SHOW_ANSWER.service, cbQuery)?.let { return it }
+        doHandle(FlagButtonCommand.FOUR_CHOICES.service, cbQuery)?.let { return it }
 
         // Country button option
         doHandle(countryRegionChosenHandler, cbQuery)?.let { return it }
         doHandle(CountryButtonCommand.SHOW_ANSWER.service, cbQuery)?.let { return it }
+        doHandle(CountryButtonCommand.FOUR_CHOICES.service, cbQuery)?.let { return it }
 
         // Capital button option
         doHandle(capitalRegionChosenHandler, cbQuery)?.let { return it }

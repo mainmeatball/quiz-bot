@@ -2,7 +2,7 @@ package org.meatball.quiz.bot.categories.geography.country.button.impl
 
 import org.meatball.quiz.bot.categories.geography.country.enums.CountryButtonCommand
 import org.meatball.quiz.bot.categories.geography.country.service.getLastCountryAnswer
-import org.meatball.quiz.bot.categories.geography.country.service.getNextCountryQuestion
+import org.meatball.quiz.bot.categories.geography.country.service.getNextCountryQuestionWithShowAnswerButton
 import org.meatball.quiz.bot.commons.button.ButtonCommandService
 import org.meatball.quiz.bot.commons.dto.SendMessageResponse
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
@@ -20,11 +20,11 @@ class CountryShowAnswerButtonCommandHandler : ButtonCommandService {
         val userId = cbQuery.from.id.toString()
 
         // Get last user flag answer
-        val lastFlagAnswer = getLastCountryAnswer(userId)
+        val lastFlagAnswer = getLastCountryAnswer(userId, false, cbQuery)
             .copy(messageId = cbQuery.message.messageId)
 
         // Get next flag question
-        val nextFlagQuestion = getNextCountryQuestion(userId)
+        val nextFlagQuestion = getNextCountryQuestionWithShowAnswerButton(userId)
 
         return SendMessageResponse(listOf(lastFlagAnswer, nextFlagQuestion))
     }
